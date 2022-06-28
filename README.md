@@ -6,15 +6,9 @@
   </picture>
   <br>
   <b>BedrockPowder is open-source Minecraft: Bedrock Edition server software written on C++</b>
-  <br>
-  <br>
-  <h1>Getting started</h1>
-  <h2>Linux</h2>
-  <code>
-  ./bedrockpowder <flags>
-  </code>
-  <h2>Windows</h2>
-  <code>
-  bedrockpowder.exe <flags>
-  </code>
 </p>
+<h1>Getting started</h1>
+<h2>Linux</h2>
+<code>./bedrockpowder [flags]</code>
+<h2>Windows</h2>
+<code>bedrockpowder.exe [flags]</code>
