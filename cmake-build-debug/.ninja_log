@@ -1,0 +1,26 @@
+# ninja log v5
+6	461	6801576414586899	CMakeFiles/BedrockPowder.dir/Starter.cpp.obj	144a432410884fad
+3	716	6801589617433571	CMakeFiles/BedrockPowder.dir/Server/BedrockPowder.cpp.obj	b571f05ef57a43f1
+9	940	6801572509217197	CMakeFiles/BedrockPowder.dir/Server/command/CommandManager.cpp.obj	280b64425a515bf4
+4	547	6801587066705656	CMakeFiles/BedrockPowder.dir/Server/command/defaults/StopCommand.cpp.obj	f3f0f9c0e49b8f68
+8	875	6801587069985963	CMakeFiles/BedrockPowder.dir/Server/command/defaults/HelpCommand.cpp.obj	1f929e0d2a06f146
+716	809	6801589618337466	BedrockPowder.exe	198b7f3a3fd1026d
+9	726	6801592866049364	CMakeFiles/BedrockPowder.dir/Server/command/defaults/VersionCommand.cpp.obj	2a8e6cd10c8d4c04
+5	780	6801592866593484	CMakeFiles/BedrockPowder.dir/Server/BedrockPowder.cpp.obj	b571f05ef57a43f1
+780	875	6801592867500841	BedrockPowder.exe	6908212c39b39110
+3	582	6801593735115062	CMakeFiles/BedrockPowder.dir/Server/command/defaults/VersionCommand.cpp.obj	2a8e6cd10c8d4c04
+583	694	6801593736197702	BedrockPowder.exe	6908212c39b39110
+6	685	6801596973485666	CMakeFiles/BedrockPowder.dir/Starter.cpp.obj	144a432410884fad
+18	760	6801596974282847	CMakeFiles/BedrockPowder.dir/Server/command/defaults/StopCommand.cpp.obj	f3f0f9c0e49b8f68
+9	819	6801596974849755	CMakeFiles/BedrockPowder.dir/Server/command/CommandManager.cpp.obj	280b64425a515bf4
+15	924	6801596975847160	CMakeFiles/BedrockPowder.dir/Server/command/defaults/HelpCommand.cpp.obj	1f929e0d2a06f146
+12	925	6801596975847160	CMakeFiles/BedrockPowder.dir/Server/command/defaults/VersionCommand.cpp.obj	2a8e6cd10c8d4c04
+3	1005	6801596976705740	CMakeFiles/BedrockPowder.dir/Server/BedrockPowder.cpp.obj	b571f05ef57a43f1
+1005	1105	6801596977693654	BedrockPowder.exe	6908212c39b39110
+7	823	6801601318799208	CMakeFiles/BedrockPowder.dir/Starter.cpp.obj	144a432410884fad
+12	973	6801601320400717	CMakeFiles/BedrockPowder.dir/Server/command/defaults/StopCommand.cpp.obj	f3f0f9c0e49b8f68
+10	1013	6801601320802143	CMakeFiles/BedrockPowder.dir/Server/command/CommandManager.cpp.obj	280b64425a515bf4
+15	1122	6801601321901807	CMakeFiles/BedrockPowder.dir/Server/command/defaults/VersionCommand.cpp.obj	2a8e6cd10c8d4c04
+18	1153	6801601322242959	CMakeFiles/BedrockPowder.dir/Server/command/defaults/HelpCommand.cpp.obj	1f929e0d2a06f146
+4	1232	6801601323020553	CMakeFiles/BedrockPowder.dir/Server/BedrockPowder.cpp.obj	b571f05ef57a43f1
+1232	1366	6801601324301296	BedrockPowder.exe	6908212c39b39110
