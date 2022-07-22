@@ -1,3 +1,0 @@
-C:/Users/pepef/CLionProjects/BedrockPowder/cmake-build-debug/CMakeFiles/BedrockPowder.dir
-C:/Users/pepef/CLionProjects/BedrockPowder/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/pepef/CLionProjects/BedrockPowder/cmake-build-debug/CMakeFiles/rebuild_cache.dir
