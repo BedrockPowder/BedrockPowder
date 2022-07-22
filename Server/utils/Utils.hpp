@@ -6,6 +6,8 @@
 #define BEDROCKPOWDER_UTILS_HPP
 
 #include <iostream>
+using namespace std;
+
 #include <sstream>
 #include <vector>
 

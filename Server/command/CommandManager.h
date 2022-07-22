@@ -5,14 +5,14 @@
 #ifndef BEDROCKPOWDER_COMMANDMANAGER_H
 #define BEDROCKPOWDER_COMMANDMANAGER_H
 
-#include <iostream>
+#include "Server/utils/StdEnv.h"
+
 #include <map>
 #include <vector>
 
-#include "CommandOrigin.hpp"
-#include "Command.hpp"
-
-using namespace std;
+#include "Server/actor/MessageReciever.hpp"
+#include "Server/command/CommandOrigin.hpp"
+#include "Server/command/Command.hpp"
 
 class CommandManager {
 public:

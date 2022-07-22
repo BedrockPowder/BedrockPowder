@@ -5,12 +5,11 @@
 #ifndef BEDROCKPOWDER_COMMAND_HPP
 #define BEDROCKPOWDER_COMMAND_HPP
 
-#include <iostream>
+#include "Server/utils/StdEnv.h"
+
 #include <vector>
 
-#include "CommandOrigin.hpp"
-
-using namespace std;
+#include "Server/command/CommandOrigin.hpp"
 
 enum CommandResult {
     FAILED,

@@ -2,7 +2,8 @@
 // Created by pepef on 22.07.2022.
 //
 
-#include "StopCommand.h"
+#include "Server/command/defaults/StopCommand.h"
+#include "Server/BedrockPowder.h"
 
 StopCommand::StopCommand() : Command("stop", "Stops the server") {}
 

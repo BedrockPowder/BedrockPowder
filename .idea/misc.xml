@@ -5,5 +5,8 @@
     <sourceRoots>
       <file path="$PROJECT_DIR$/Server" />
     </sourceRoots>
+    <libraryRoots>
+      <file path="$PROJECT_DIR$/Include" />
+    </libraryRoots>
   </component>
 </project>

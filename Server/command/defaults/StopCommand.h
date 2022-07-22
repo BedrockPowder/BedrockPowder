@@ -5,12 +5,10 @@
 #ifndef BEDROCKPOWDER_STOPCOMMAND_H
 #define BEDROCKPOWDER_STOPCOMMAND_H
 
-#include <iostream>
+#include "Server/utils/StdEnv.h"
 
-#include "../Command.hpp"
-#include "../../BedrockPowder.h"
-
-using namespace std;
+#include "Server/actor/MessageReciever.hpp"
+#include "Server/command/Command.hpp"
 
 class StopCommand : public Command {
 public:

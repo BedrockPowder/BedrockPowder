@@ -2,7 +2,7 @@
 // Created by pepef on 22.07.2022.
 //
 
-#include "HelpCommand.h"
+#include "Server/command/defaults/HelpCommand.h"
 
 HelpCommand::HelpCommand() : Command("help", "Shows list of all available commands.") {}
 
@@ -13,7 +13,7 @@ CommandResult HelpCommand::execute(CommandOrigin *ori, string alias, vector<stri
         message.push_back(command->getName() + ": " + command->getDescription());
     }
     for(const auto& msg_piece : message) {
-        ori->sendMessage(msg_piece);
+        ori->getActorSender()->sendMessage(msg_piece);
     }
     return CommandResult::SUCCESS;
 }

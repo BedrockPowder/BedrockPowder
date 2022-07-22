@@ -5,12 +5,11 @@
 #ifndef BEDROCKPOWDER_HELPCOMMAND_H
 #define BEDROCKPOWDER_HELPCOMMAND_H
 
-#include <iostream>
+#include "Server/utils/StdEnv.h"
 
-#include "../Command.hpp"
-#include "../../BedrockPowder.h"
-
-using namespace std;
+#include "Server/actor/MessageReciever.hpp"
+#include "Server/command/Command.hpp"
+#include "Server/BedrockPowder.h"
 
 class HelpCommand : public Command {
 public:

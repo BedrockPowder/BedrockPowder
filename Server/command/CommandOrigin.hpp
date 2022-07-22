@@ -5,36 +5,20 @@
 #ifndef BEDROCKPOWDER_COMMANDORIGIN_HPP
 #define BEDROCKPOWDER_COMMANDORIGIN_HPP
 
-#include <iostream>
+#include "Server/utils/StdEnv.h"
 
-#include "logger/Logger.hpp"
-
-using namespace std;
+#include "Server/actor/MessageReciever.hpp"
 
 class CommandOrigin {
 public:
-    CommandOrigin(const string& name, bool is_player) {
-        this->name = name;
-        this->is_player = is_player;
+    explicit CommandOrigin(MessageReciever* actor_origin) {
+        this->actor_ori = actor_origin;
     }
-    string getName() {
-        return this->name;
+    class MessageReciever* getActorSender() {
+        return this->actor_ori;
     }
-
-    void sendMessage(const string& msg) const {
-        if(!this->isPlayer()) {
-            Logger::log(msg);
-            return;
-        }
-        //...
-    }
-    [[nodiscard]]
-    bool isPlayer() const {
-        return is_player;
-    };
 private:
-    string name;
-    bool is_player = false;
+    class MessageReciever* actor_ori;
 };
 
 #endif //BEDROCKPOWDER_COMMANDORIGIN_HPP

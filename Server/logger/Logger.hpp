@@ -5,14 +5,16 @@
 #ifndef BEDROCKPOWDER_LOGGER_H
 #define BEDROCKPOWDER_LOGGER_H
 
-#include <iostream>
+#include <sstream>
+#include <iomanip>
 
-using namespace std;
+#include "Server/utils/StdEnv.h"
+#include "Server/BedrockPowder.h"
 
 enum LogLevel : int {
     INFO = 0,
     WARN = 1,
-    ERROR = 2,
+    ERROR_ = 2,
     EMERGENCY = 3,
     NOTICE = 4,
     DEBUG = 5,
@@ -31,10 +33,10 @@ public:
                 logger_title = "[warn!]";
                 break;
             case 2:
-                logger_title = "[error!]";
+                logger_title = "[!error!]";
                 break;
             case 3:
-                logger_title = "[emergency]";
+                logger_title = "[emergency!]";
                 break;
             case 4:
                 logger_title = "[notice!]";
@@ -45,7 +47,15 @@ public:
             default:
                 logger_title = "[unknown.]";
         }
-        printf("%s: %s\n", logger_title.c_str(), message.c_str());
+        if(level == 5 && !BedrockPowder::isDevMode()) {
+            return;
+        }
+        stringstream logger_stream("");
+        auto time_l = time(nullptr);
+        logger_stream << "(" << std::put_time(localtime(&time_l), "%Y/%d %b - %H:%M:%S") << ")";
+        logger_stream << logger_title;
+        logger_stream << ": " << message.c_str() << endl;
+        printf("%s", logger_stream.str().c_str());
     }
 };
 

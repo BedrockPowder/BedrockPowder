@@ -32,4 +32,4 @@
 *.app
 
 # my cmake build target.
-/cmake-build-debug/
+/cmake-build-debug-visual-studio/
