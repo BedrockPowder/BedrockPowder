@@ -5,12 +5,9 @@
 #ifndef BEDROCKPOWDER_BEDROCKPOWDER_H
 #define BEDROCKPOWDER_BEDROCKPOWDER_H
 
-#include "Server/utils/StdEnv.h"
-
-#include <chrono>
-
 #include "Server/command/CommandOrigin.hpp"
 #include "Server/command/CommandManager.h"
+#include "Server/lang/LangConfiguration.hpp"
 
 class BedrockPowder {
 public:
@@ -19,8 +16,7 @@ public:
     static class CommandManager* getCommandManager();
     static class CommandOrigin* getConsoleOrigin();
     static bool isDevMode();
-private:
-    int max_players = 20;
+    static class LangConfiguration* getLangConfig();
 };
 
 #endif //BEDROCKPOWDER_BEDROCKPOWDER_H

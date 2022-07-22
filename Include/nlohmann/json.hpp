@@ -17341,7 +17341,7 @@ The buffer must be large enough, i.e. >= max_digits10.
                 //
                 // The documentation for 'std::to_chars' (https://en.cppreference.com/w/cpp/utility/to_chars)
                 // says "value is converted to a string as if by std::sprintf in the default ("C") locale"
-                // and since sprintf promotes floats to doubles, I think this is exactly what 'std::to_chars'
+                // and since sprintf promotes floats to double, I think this is exactly what 'std::to_chars'
                 // does.
                 // On the other hand, the documentation for 'std::to_chars' requires that "parsing the
                 // representation using the corresponding std::from_chars function recovers value exactly". That

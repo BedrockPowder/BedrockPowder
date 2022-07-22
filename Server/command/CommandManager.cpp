@@ -4,6 +4,7 @@
 
 #include "Server/command/CommandManager.h"
 
+#include "Server/utils/Utils.hpp"
 #include "Server/logger/Logger.hpp"
 
 void CommandManager::addCommand(class Command* cmd) {
@@ -30,7 +31,7 @@ void CommandManager::tryExecute(CommandOrigin* origin, const string& cmd, const 
             break;
         }
     }
-    string message_unk = "Unknown command: " + cmd + ". Use command /help to get all available commands.";
+    string message_unk = BedrockPowder::getLangConfig()->getTranslatedString("unk_command_message");
     if(found == nullptr) {
         origin->getActorSender()->sendMessage(message_unk);
         return;

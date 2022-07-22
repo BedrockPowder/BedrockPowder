@@ -5,5 +5,10 @@
 #include "Server/BedrockPowder.h"
 
 int main() {
-    BedrockPowder::start();
+    try {
+        BedrockPowder::start();
+    } catch (...) {
+        cerr << "Something went wrong." << endl;
+        system("pause");
+    }
 }

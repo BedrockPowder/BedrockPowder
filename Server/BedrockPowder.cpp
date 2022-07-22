@@ -4,6 +4,10 @@
 
 #include "Server/BedrockPowder.h"
 
+#include "Server/utils/StdEnv.h"
+
+#include <chrono>
+
 #include "Server/Constants.h"
 #include "Server/logger/Logger.hpp"
 #include "Server/utils/Utils.hpp"
@@ -19,9 +23,9 @@
 
 static CommandManager* command_manager;
 static CommandOrigin* console;
+static LangConfiguration* lang_config;
 static vector<class Player*> player_map;
 static int max_players = 20;
-static bool is_started = false;
 static nlohmann::json config;
 
 void wait_for_command() { // NOLINT(misc-no-recursion)
@@ -44,25 +48,26 @@ void wait_for_command() { // NOLINT(misc-no-recursion)
         }
         BedrockPowder::getCommandManager()->tryExecute(BedrockPowder::getConsoleOrigin(), split_cmdline[0], arguments);
     }
+    if(command == "///////////////////////////") {
+        // This is a workaround because compiler don't like infinite recursions.
+        return;
+    }
     wait_for_command();
 }
 
-#include <cstdio>
-#include <direct.h>
 #include <fstream>
 
 void load_configuration() {
-    char current_work_dir[FILENAME_MAX];
-    _getcwd(current_work_dir, sizeof(current_work_dir));
-
-    std::ifstream read(string(current_work_dir) + "\\server.json");
+    string dir = Utils::getDirectory();
+    std::ifstream read(dir + "\\server.json");
     if(!read) {
         Logger::log("Could not find \"server.json\". Creating new...", LogLevel::NOTICE);
         config["server_name"] = string(BEDROCKPOWDER_CORE_NAME) + " Server";
+        config["lang"] = "en-us";
         config["debug_level"] = 0;
         config["max_players"] = 20;
 
-        std::ofstream write(string(current_work_dir) + "\\server.json");
+        std::ofstream write(dir + "\\server.json");
         write << std::setw(4) << config << std::endl;
         return;
     }
@@ -84,17 +89,20 @@ class CommandOrigin* BedrockPowder::getConsoleOrigin() {
     return console;
 }
 
+class LangConfiguration* BedrockPowder::getLangConfig() {
+    return lang_config;
+}
+
 void BedrockPowder::start() {
-    if(is_started) {
-        Logger::log("Another " + string(BEDROCKPOWDER_CORE_NAME) + " is running in this thread.");
-        return;
-    }
-    is_started = true;
     // Time from start point.
     auto ms_from = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+
+    lang_config = new LangConfiguration(to_string(config["lang"]));
+    lang_config->load();
+
     Logger::log("This server is running " + string(BEDROCKPOWDER_CORE_NAME) + " version " + string(BEDROCKPOWDER_VERSION));
 
-    Logger::log("Loading server configuration...");
+    Logger::log("Loading server configuration.");
     load_configuration();
 
     // Command related things.
@@ -119,5 +127,6 @@ void BedrockPowder::start() {
 
 void BedrockPowder::shutdown() {
     Logger::log("Shutdown.");
+    system("pause");
     exit(6);
 }
