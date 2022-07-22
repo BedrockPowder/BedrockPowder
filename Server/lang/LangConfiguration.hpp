@@ -6,7 +6,6 @@
 #define BEDROCKPOWDER_LANGCONFIGURATION_HPP
 
 #include "Server/utils/StdEnv.h"
-//#include "Server/logger/Logger.hpp"
 #include "Server/utils/Utils.hpp"
 #include "Server/Constants.h"
 #include <nlohmann/json.hpp>
@@ -26,24 +25,16 @@ public:
         if(!std::filesystem::exists(dir)) {
             std::filesystem::create_directories(dir);
         }
-
         dir += "\\" + this->current_code + ".json";
-        cerr << "a" << endl;
         std::ifstream read(dir);
-        cerr << dir << endl;
         if(!read) {
-            //Logger::log("Could not find \"lang\\" + this->current_code + ".json\". Creating new...", LogLevel::NOTICE);
-            cerr << "c" << endl;
-            config["unk_command_message"] = "Unknown command: {}. Use command /help to get all available commands.";
-            cerr << "d" << endl;
+            this->config["unk_command_message"] = "Unknown command: {}. Use command /help to get all available commands.";
+            //this->config[""] = "";
             std::ofstream write(dir);
             write << std::setw(4) << this->config << std::endl;
             return;
         }
-        cerr << "e" << endl;
         read >> this->config;
-        cerr << "f" << endl;
-        //Logger::log("Loaded configuration successfully.");
     }
 
     string getTranslatedString(const string& key) {
