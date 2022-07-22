@@ -17,11 +17,12 @@
 class CommandManager {
 public:
     CommandManager() = default;
-    void addCommand(class Command*);
+    void init();
+    void registerCommand(class Command*);
     vector<class Command*> getCommands() {
         return this->command_map;
     }
-    void tryExecute(CommandOrigin*, const string&, const vector<string>&);
+    void handleCommandRequest(CommandOrigin*, const string&, const vector<string>&);
 private:
     vector<class Command*> command_map;
 };

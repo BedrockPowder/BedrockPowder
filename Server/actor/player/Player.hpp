@@ -13,8 +13,7 @@
 
 class Player : MessageReciever, Mob {
 public:
-    Player(string name) : MessageReciever(std::move(name), true), Mob(std::move(name), true) {
-    }
+    Player(string name) : MessageReciever(std::move(name), true), Mob(std::move(name), true) {}
 };
 
 #endif //BEDROCKPOWDER_PLAYER_HPP

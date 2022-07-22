@@ -7,7 +7,7 @@
 
 #include "Server/utils/StdEnv.h"
 
-#include "MessageReciever.hpp"
+#include "Server/actor/MessageReciever.hpp"
 #include "Server/logger/Logger.hpp"
 
 class Console : public MessageReciever {

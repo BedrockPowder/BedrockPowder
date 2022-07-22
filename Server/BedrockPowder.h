@@ -15,7 +15,7 @@ public:
     static void shutdown();
     static class CommandManager* getCommandManager();
     static class CommandOrigin* getConsoleOrigin();
-    static bool isDevMode();
+    static bool isDebugMessagesEnabled();
     static class LangConfiguration* getLangConfig();
 };
 

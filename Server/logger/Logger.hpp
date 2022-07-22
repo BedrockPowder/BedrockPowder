@@ -47,7 +47,7 @@ public:
             default:
                 logger_title = "[unknown.]";
         }
-        if(level == 5 && !BedrockPowder::isDevMode()) {
+        if(level == 5 && !BedrockPowder::isDebugMessagesEnabled()) {
             return;
         }
         stringstream logger_stream("");

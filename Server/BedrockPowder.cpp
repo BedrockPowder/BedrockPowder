@@ -7,19 +7,14 @@
 #include "Server/utils/StdEnv.h"
 
 #include <chrono>
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 #include "Server/Constants.h"
 #include "Server/logger/Logger.hpp"
 #include "Server/utils/Utils.hpp"
 #include "Server/actor/Console.hpp"
-#include "Server/command/defaults/StopCommand.h"
-#include "Server/command/defaults/HelpCommand.h"
-#include "Server/command/defaults/VersionCommand.h"
 #include "Server/actor/player/Player.hpp"
-
-#include <filesystem>
-
-#include <nlohmann/json.hpp>
 
 static CommandManager* command_manager;
 static CommandOrigin* console;
@@ -46,7 +41,7 @@ void wait_for_command() { // NOLINT(misc-no-recursion)
                 arguments.push_back(arg);
             }
         }
-        BedrockPowder::getCommandManager()->tryExecute(BedrockPowder::getConsoleOrigin(), split_cmdline[0], arguments);
+        BedrockPowder::getCommandManager()->handleCommandRequest(BedrockPowder::getConsoleOrigin(), split_cmdline[0], arguments);
     }
     if(command == "///////////////////////////") {
         // This is a workaround because compiler don't like infinite recursions.
@@ -55,11 +50,9 @@ void wait_for_command() { // NOLINT(misc-no-recursion)
     wait_for_command();
 }
 
-#include <fstream>
-
 void load_configuration() {
-    string dir = Utils::getDirectory();
-    std::ifstream read(dir + "\\server.json");
+    string directory = Utils::getDirectory();
+    std::ifstream read(directory + "\\server.json");
     if(!read) {
         Logger::log("Could not find \"server.json\". Creating new...", LogLevel::NOTICE);
         config["server_name"] = string(BEDROCKPOWDER_CORE_NAME) + " Server";
@@ -67,15 +60,15 @@ void load_configuration() {
         config["debug_level"] = 0;
         config["max_players"] = 20;
 
-        std::ofstream write(dir + "\\server.json");
+        std::ofstream write(directory + "\\server.json");
         write << std::setw(4) << config << std::endl;
         return;
     }
     read >> config;
-    Logger::log("Loaded configuration successfully.");
+    Logger::log("Loaded server configuration successfully.");
 }
 
-bool BedrockPowder::isDevMode() {
+bool BedrockPowder::isDebugMessagesEnabled() {
     int level;
     level = stoi(to_string(config["debug_level"]));
     return level != 0;
@@ -97,31 +90,32 @@ void BedrockPowder::start() {
     // Time from start point.
     auto ms_from = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 
+    load_configuration();
     lang_config = new LangConfiguration(to_string(config["lang"]));
     lang_config->load();
 
     Logger::log("This server is running " + string(BEDROCKPOWDER_CORE_NAME) + " version " + string(BEDROCKPOWDER_VERSION));
 
-    Logger::log("Loading server configuration.");
-    load_configuration();
+    if(BedrockPowder::isDebugMessagesEnabled()) {
+        Logger::log("Debug log enabled.");
+    }
+    if(BEDROCKPOWDER_IS_DEV) {
+        Logger::log("You are running development version of " + string(BEDROCKPOWDER_CORE_NAME) + ".", LogLevel::WARN);
+        Logger::log("Some features that implemented on development", LogLevel::WARN);
+        Logger::log("version can be buggy and be unstable. Not RECOMMEND use it on Production.", LogLevel::WARN);
+    }
 
     // Command related things.
     console = new CommandOrigin(new Console());
     command_manager = new CommandManager();
-    command_manager->addCommand(new HelpCommand());
-    command_manager->addCommand(new StopCommand());
-    command_manager->addCommand(new VersionCommand());
+    command_manager->init();
 
     // Time from end point.
     auto ms_to = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
     // Log time, that was consumed for start.
-    Logger::log("Done! (" + to_string(ms_to.count() - ms_from.count()) + " ms)! For help type \"help\"");
+    Logger::log("Done! (" + to_string(ms_to.count() - ms_from.count()) + " ms)! For help type \"/help\"");
 
-    Logger::log("Running developer version.", LogLevel::NOTICE);
-
-
-    Logger::log("ServerName: " + to_string(config["server_name"]), LogLevel::DEBUG);
-    // Server is waiting for console input.
+    // Command line is waiting for console input.
     wait_for_command();
 }
 

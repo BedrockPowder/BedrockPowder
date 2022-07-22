@@ -7,12 +7,22 @@
 #include "Server/utils/Utils.hpp"
 #include "Server/logger/Logger.hpp"
 
-void CommandManager::addCommand(class Command* cmd) {
-    Logger::log("Added command: " + cmd->getName(), LogLevel::DEBUG);
+#include "Server/command/defaults/StopCommand.h"
+#include "Server/command/defaults/HelpCommand.h"
+#include "Server/command/defaults/VersionCommand.h"
+
+void CommandManager::init() {
+    this->registerCommand(new HelpCommand());
+    this->registerCommand(new StopCommand());
+    this->registerCommand(new VersionCommand());
+}
+
+void CommandManager::registerCommand(class Command* cmd) {
+    Logger::log("Registered command: " + cmd->getName(), LogLevel::DEBUG);
     this->command_map.push_back(cmd);
 }
 
-void CommandManager::tryExecute(CommandOrigin* origin, const string& cmd, const vector<string>& args) {
+void CommandManager::handleCommandRequest(CommandOrigin* origin, const string& cmd, const vector<string>& args) {
     Command* found = nullptr;
     for(auto cmd_f_m : this->command_map) {
         bool should_break = false;
@@ -32,6 +42,7 @@ void CommandManager::tryExecute(CommandOrigin* origin, const string& cmd, const 
         }
     }
     string message_unk = BedrockPowder::getLangConfig()->getTranslatedString("unk_command_message");
+    message_unk = Utils::str_replace(message_unk, "{}", cmd);
     if(found == nullptr) {
         origin->getActorSender()->sendMessage(message_unk);
         return;
