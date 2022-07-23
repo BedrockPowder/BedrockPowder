@@ -41,11 +41,11 @@ public:
         string string_to_return;
         try {
             string_to_return = to_string(this->config[key]);
+            string_to_return.erase(string_to_return.begin(), string_to_return.begin() + 1);
+            string_to_return.pop_back();
         } catch (...) {
             string_to_return = "<no such key>(" + key + ")";
         }
-        string_to_return = Utils::str_replace(string_to_return, "\"", "");
-        string_to_return = Utils::str_replace(string_to_return, "\"", "");
         return string_to_return;
     }
 private:

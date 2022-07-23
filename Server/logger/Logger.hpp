@@ -20,6 +20,8 @@ enum LogLevel : int {
     DEBUG = 5,
 };
 
+#include <format>
+
 class Logger {
 public:
     static void log(const string& message, enum LogLevel log_level = LogLevel::INFO) {

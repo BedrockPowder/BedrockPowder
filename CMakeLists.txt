@@ -27,7 +27,6 @@ set(BedrockPowder_src
         Server/actor/player/Player.hpp
         Server/actor/Mob.hpp
         Server/utils/StdEnv.h
-        Include/nlohmann/json.hpp
         Server/lang/LangConfiguration.hpp)
 
 include_directories(.)
