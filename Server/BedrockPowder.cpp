@@ -94,11 +94,15 @@ void BedrockPowder::start() {
     lang_config = new LangConfiguration(to_string(config["lang"]));
     lang_config->load();
 
-    Logger::log("This server is running " + string(BEDROCKPOWDER_CORE_NAME) + " version " + string(BEDROCKPOWDER_VERSION));
+    string mUsing = "This server is running {} version {}";
+    mUsing = Utils::str_replace(mUsing, "{}", string(BEDROCKPOWDER_CORE_NAME));
+    mUsing = Utils::str_replace(mUsing, "{}", string(BEDROCKPOWDER_VERSION));
+    Logger::log(mUsing);
 
     if(BedrockPowder::isDebugMessagesEnabled()) {
         Logger::log("Debug log enabled.");
     }
+
     if(BEDROCKPOWDER_IS_DEV) {
         Logger::log("You are running development version of " + string(BEDROCKPOWDER_CORE_NAME) + ".", LogLevel::WARN);
         Logger::log("Some features that implemented on development", LogLevel::WARN);
@@ -113,7 +117,9 @@ void BedrockPowder::start() {
     // Time from end point.
     auto ms_to = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
     // Log time, that was consumed for start.
-    Logger::log("Done! (" + to_string(ms_to.count() - ms_from.count()) + " ms)! For help type \"/help\"");
+    string mDone = "Done! ({} ms)! For help type \"/help\"";
+    mDone = Utils::str_replace(mDone, "{}", (to_string(ms_to.count() - ms_from.count())));
+    Logger::log(mDone);
 
     // Command line is waiting for console input.
     wait_for_command();
