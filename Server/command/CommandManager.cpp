@@ -9,11 +9,13 @@
 
 #include "Server/command/defaults/StopCommand.h"
 #include "Server/command/defaults/HelpCommand.h"
+#include "Server/command/defaults/ListCommand.h"
 #include "Server/command/defaults/VersionCommand.h"
 
 void CommandManager::init() {
     this->registerCommand(new HelpCommand());
     this->registerCommand(new StopCommand());
+    this->registerCommand(new ListCommand());
     this->registerCommand(new VersionCommand());
 }
 

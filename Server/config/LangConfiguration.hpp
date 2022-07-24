@@ -14,9 +14,7 @@
 class LangConfiguration {
 public:
     explicit LangConfiguration(string code) {
-        string code_t = Utils::str_replace(code, "\"", "");
-        code_t = Utils::str_replace(code_t, "\"", "");
-        this->current_code = std::move(code_t);
+        this->current_code = std::move(code);
     }
 
     void load() {

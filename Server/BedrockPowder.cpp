@@ -8,20 +8,20 @@
 
 #include <chrono>
 #include <fstream>
-#include <nlohmann/json.hpp>
 
 #include "Server/Constants.h"
 #include "Server/logger/Logger.hpp"
 #include "Server/utils/Utils.hpp"
 #include "Server/actor/Console.hpp"
 #include "Server/actor/player/Player.hpp"
+#include "Server/network/ProtocolInfo.h"
 
+static ServerConfiguration* server_config;
 static CommandManager* command_manager;
 static CommandOrigin* console;
 static LangConfiguration* lang_config;
 static vector<class Player*> player_map;
 static int max_players = 20;
-static nlohmann::json config;
 
 void wait_for_command() { // NOLINT(misc-no-recursion)
     string command;
@@ -50,27 +50,9 @@ void wait_for_command() { // NOLINT(misc-no-recursion)
     wait_for_command();
 }
 
-void load_configuration() {
-    string directory = Utils::getDirectory();
-    std::ifstream read(directory + "\\server.json");
-    if(!read) {
-        Logger::log("Could not find \"server.json\". Creating new...", LogLevel::NOTICE);
-        config["server_name"] = string(BEDROCKPOWDER_CORE_NAME) + " Server";
-        config["lang"] = "en-us";
-        config["debug_level"] = 0;
-        config["max_players"] = 20;
-
-        std::ofstream write(directory + "\\server.json");
-        write << std::setw(4) << config << std::endl;
-        return;
-    }
-    read >> config;
-    Logger::log("Loaded server configuration successfully.");
-}
-
 bool BedrockPowder::isDebugMessagesEnabled() {
     int level;
-    level = stoi(to_string(config["debug_level"]));
+    level = stoi(server_config->getField("debug_level"));
     return level != 0;
 }
 
@@ -86,12 +68,48 @@ class LangConfiguration* BedrockPowder::getLangConfig() {
     return lang_config;
 }
 
+class ServerConfiguration* BedrockPowder::getServerConfig() {
+    return server_config;
+}
+
+void handle_raknet() {
+    string mQueryMessage = "{};{};{};{};{};{};{};{};{};{};{};{};";
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", GAME_NAME);
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", BedrockPowder::getServerConfig()->getField("server_name"));
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", to_string(PROTOCOL_VERSION));
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", MCPE_VERSION);
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", to_string(BedrockPowder::getOnlinePlayers()));
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", BedrockPowder::getServerConfig()->getField("max_players"));
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", "0");
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", "BedrockPowder");
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", "Survival");
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", "1");
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", BedrockPowder::getServerConfig()->getField("server_port"));
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", "200");
+
+    //mQueryMessage.insert(mQueryMessage.begin(), mQueryMessage.size());
+    //mQueryMessage.insert(mQueryMessage.begin(), 0x00);
+    Logger::log(mQueryMessage, LogLevel::WARN);
+}
+
+int BedrockPowder::getOnlinePlayers() {
+    int ret_v = 0;
+    for(auto ignored_player : player_map) {
+        ret_v++;
+    }
+    return ret_v;
+}
+
 void BedrockPowder::start() {
     // Time from start point.
     auto ms_from = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 
-    load_configuration();
-    lang_config = new LangConfiguration(to_string(config["lang"]));
+
+
+    server_config = new ServerConfiguration(Utils::getDirectory() + "\\server.json");
+    server_config->load();
+
+    lang_config = new LangConfiguration(server_config->getField("lang"));
     lang_config->load();
 
     string mUsing = "This server is running {} version {}";
@@ -105,8 +123,8 @@ void BedrockPowder::start() {
 
     if(BEDROCKPOWDER_IS_DEV) {
         Logger::log("You are running development version of " + string(BEDROCKPOWDER_CORE_NAME) + ".", LogLevel::WARN);
-        Logger::log("Some features that implemented on development", LogLevel::WARN);
-        Logger::log("version can be buggy and be unstable. Not RECOMMEND use it on Production.", LogLevel::WARN);
+        Logger::log("Some features that implemented on development version can be", LogLevel::WARN);
+        Logger::log("buggy and be unstable. Not RECOMMEND use it on Production.", LogLevel::WARN);
     }
 
     // Command related things.
@@ -119,7 +137,6 @@ void BedrockPowder::start() {
     // Log time, that was consumed for start.
     string mDone = "Done! ({} ms)! For help type \"/help\"";
     mDone = Utils::str_replace(mDone, "{}", (to_string(ms_to.count() - ms_from.count())));
-    Logger::log(mDone);
 
     // Command line is waiting for console input.
     wait_for_command();

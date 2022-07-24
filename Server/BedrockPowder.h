@@ -7,13 +7,16 @@
 
 #include "Server/command/CommandOrigin.hpp"
 #include "Server/command/CommandManager.h"
-#include "Server/lang/LangConfiguration.hpp"
+#include "Server/config/LangConfiguration.hpp"
+#include "Server/config/ServerConfiguration.hpp"
 
 class BedrockPowder {
 public:
     static void start();
     static void shutdown();
+    static int getOnlinePlayers();
     static class CommandManager* getCommandManager();
+    static class ServerConfiguration* getServerConfig();
     static class CommandOrigin* getConsoleOrigin();
     static bool isDebugMessagesEnabled();
     static class LangConfiguration* getLangConfig();
