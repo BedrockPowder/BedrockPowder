@@ -7,7 +7,7 @@
 </p>
 <h1>Getting Started</h1>
 <h3>How to write plugins?</h3>
-    <h4>text</h4>
+    <h4>Никак (У Дилана спроси, он подскажет)</h4>
 <h3>Configuration file</h3>
 <pre>
 <code>{
