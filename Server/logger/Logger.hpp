@@ -53,8 +53,8 @@ public:
             return;
         }
         stringstream logger_stream("");
-        auto time_l = time(nullptr);
-        logger_stream << "(" << std::put_time(localtime(&time_l), "%Y/%d %b - %H:%M:%S") << ")";
+        auto current_time = time(nullptr);
+        logger_stream << "(" << std::put_time(localtime(&current_time), "%Y/%d %b - %H:%M:%S") << ")";
         logger_stream << logger_title;
         logger_stream << ": " << message.c_str() << endl;
         printf("%s", logger_stream.str().c_str());
