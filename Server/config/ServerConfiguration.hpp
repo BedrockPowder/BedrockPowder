@@ -10,14 +10,14 @@
 
 class ServerConfiguration {
 public:
-    explicit ServerConfiguration(const string& path) {
+    explicit ServerConfiguration(const std::string& path) {
         this->c_path = path;
     }
 
     void load() {
         std::ifstream read(this->c_path);
         if(!read) {
-            this->json_storage["server_name"] = string(BEDROCKPOWDER_CORE_NAME) + " Server";
+            this->json_storage["server_name"] = std::string(BEDROCKPOWDER_CORE_NAME) + " Server";
             this->json_storage["server_ip"] = "0.0.0.0";
             this->json_storage["server_port"] = "19132";
             //this->json_storage["server_ip"] = "";
@@ -32,8 +32,8 @@ public:
         read >> this->json_storage;
     }
 
-    string getField(const string& field) {
-        string string_to_return;
+    std::string getField(const std::string& field) {
+        std::string string_to_return;
         try {
             string_to_return = to_string(this->json_storage[field]);
             if(field != "debug_level" && field != "max_players") {
@@ -47,7 +47,7 @@ public:
     }
 private:
     nlohmann::json json_storage;
-    string c_path;
+    std::string c_path;
 };
 
 #endif //BEDROCKPOWDER_SERVERCONFIGURATION_HPP

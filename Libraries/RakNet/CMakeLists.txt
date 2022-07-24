@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.1)
 
 project(RakNet)
 
+set(CMAKE_CXX_STANDARD 20)
+
 file(GLOB_RECURSE RAKNET_SOURCES "*.cpp")
 
 if(MSVC)

@@ -10,15 +10,16 @@
 #include "Server/Constants.h"
 #include <nlohmann/json.hpp>
 #include <fstream>
+#include <filesystem>
 
 class LangConfiguration {
 public:
-    explicit LangConfiguration(string code) {
+    explicit LangConfiguration(std::string code) {
         this->current_code = std::move(code);
     }
 
     void load() {
-        string dir = Utils::getDirectory();
+        std::string dir = Utils::getDirectory();
         dir += "\\lang";
         if(!std::filesystem::exists(dir)) {
             std::filesystem::create_directories(dir);
@@ -35,8 +36,8 @@ public:
         read >> this->config;
     }
 
-    string getTranslatedString(const string& key) {
-        string string_to_return;
+    std::string getTranslatedString(const std::string& key) {
+        std::string string_to_return;
         try {
             string_to_return = to_string(this->config[key]);
             string_to_return.erase(string_to_return.begin(), string_to_return.begin() + 1);
@@ -48,7 +49,7 @@ public:
     }
 private:
     nlohmann::json config;
-    string current_code;
+    std::string current_code;
 };
 
 #endif //BEDROCKPOWDER_LANGCONFIGURATION_HPP

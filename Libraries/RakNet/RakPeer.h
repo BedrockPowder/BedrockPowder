@@ -490,7 +490,7 @@ public:
 
 	/// \brief Sends a one byte message ID_ADVERTISE_SYSTEM to the remote unconnected system.
 	/// This will send our external IP outside the LAN along with some user data to the remote system.
-	/// \pre The sender and recipient must already be started via a successful call to Initialize
+	/// \pre The sender and recipient must already be started via a successful call to init
 	/// \param[in] host Either a dotted IP address or a domain name
 	/// \param[in] remotePort Which port to connect to on the remote machine.
 	/// \param[in] data Optional data to append to the packet.

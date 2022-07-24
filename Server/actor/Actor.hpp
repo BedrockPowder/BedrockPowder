@@ -11,7 +11,7 @@
 
 class Actor {
 public:
-    Actor(string name, bool is_player) {
+    Actor(std::string name, bool is_player) {
         this->name = std::move(name);
         this->is_player = is_player;
     }
@@ -19,12 +19,12 @@ public:
     bool isPlayer() const {
         return this->is_player;
     }
-    string getName() {
+    std::string getName() {
         return this->name;
     }
 private:
     bool is_player;
-    string name;
+    std::string name;
 };
 
 #endif //BEDROCKPOWDER_ACTOR_HPP

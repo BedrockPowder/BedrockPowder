@@ -13,7 +13,7 @@
 class Console : public MessageReciever {
 public:
     Console() : MessageReciever("console", false) {}
-    void sendMessage(string message) override {
+    void sendMessage(std::string message) override {
         Logger::log(message);
     }
 };

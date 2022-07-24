@@ -8,9 +8,9 @@ set(SOURCES
         ${PROJECT_SOURCE_DIR}/Server/
 )
 
-set(BedrockPowder_src Server/BedrockPowder.cpp Server/BedrockPowder.h Server/Constants.h Server/logger/Logger.hpp Starter.cpp Server/command/Command.hpp Server/command/CommandOrigin.hpp Server/command/CommandManager.cpp Server/command/CommandManager.h Server/utils/Utils.hpp Server/command/defaults/StopCommand.cpp Server/command/defaults/StopCommand.h Server/command/defaults/HelpCommand.cpp Server/command/defaults/HelpCommand.h Server/command/defaults/VersionCommand.cpp Server/command/defaults/VersionCommand.h Server/actor/Actor.hpp Server/actor/MessageReciever.hpp Server/actor/Console.hpp Server/actor/player/Player.hpp Server/actor/Mob.hpp Server/utils/StdEnv.h Server/config/LangConfiguration.hpp Server/network/MCPEPacket.hpp Server/utils/BinaryStream.hpp Server/network/ProtocolInfo.h Server/config/ServerConfiguration.hpp Server/command/defaults/ListCommand.cpp Server/command/defaults/ListCommand.h)
+set(BedrockPowder_src Server/BedrockPowder.cpp Server/BedrockPowder.h Server/Constants.h Server/logger/Logger.hpp Starter.cpp Server/command/Command.hpp Server/command/CommandOrigin.hpp Server/command/CommandManager.cpp Server/command/CommandManager.h Server/utils/Utils.hpp Server/command/defaults/StopCommand.cpp Server/command/defaults/StopCommand.h Server/command/defaults/HelpCommand.cpp Server/command/defaults/HelpCommand.h Server/command/defaults/VersionCommand.cpp Server/command/defaults/VersionCommand.h Server/actor/Actor.hpp Server/actor/MessageReciever.hpp Server/actor/Console.hpp Server/actor/player/Player.hpp Server/actor/Mob.hpp Server/utils/StdEnv.h Server/config/LangConfiguration.hpp Server/network/MCPEPacket.hpp Server/utils/BinaryStream.hpp Server/network/ProtocolInfo.h Server/config/ServerConfiguration.hpp Server/command/defaults/ListCommand.cpp Server/command/defaults/ListCommand.h Server/network/raknet/RakNetHandler.hpp)
 
-#add_subdirectory(Libraries/RakNet)
+add_subdirectory(Libraries/RakNet)
 
 include_directories(.)
 include_directories(Include)
@@ -19,4 +19,4 @@ link_directories(.)
 
 add_executable(BedrockPowder ${BedrockPowder_src})
 
-#target_link_libraries(BedrockPowder raknet)
+target_link_libraries(BedrockPowder raknet)

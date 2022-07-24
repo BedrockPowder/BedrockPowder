@@ -13,7 +13,7 @@
 class ListCommand : public Command {
 public:
     ListCommand();
-    CommandResult execute(CommandOrigin* ori, string alias, vector<string> args) override;
+    CommandResult execute(CommandOrigin* ori, std::string alias, std::vector<std::string> args) override;
 };
 
 

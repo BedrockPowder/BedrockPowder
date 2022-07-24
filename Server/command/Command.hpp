@@ -18,31 +18,31 @@ enum CommandResult {
 
 class Command {
 public:
-    explicit Command(const string& cmd_name, const string& description = "", const string& usage_message = "", const vector<string>& aliases = {}) {
+    explicit Command(const std::string& cmd_name, const std::string& description = "", const std::string& usage_message = "", const std::vector<std::string>& aliases = {}) {
         this->name = cmd_name;
         this->desc = description;
         this->usage = usage_message;
         this->aliases_list = aliases;
     }
     // CommandResult execute (sender, command, args)
-    virtual CommandResult execute(CommandOrigin*, string, vector<string>) = 0;
-    string getName() {
+    virtual CommandResult execute(CommandOrigin*, std::string, std::vector<std::string>) = 0;
+    std::string getName() {
         return this->name;
     }
-    string getDescription() {
+    std::string getDescription() {
         return this->desc;
     }
-    string getUsage() {
+    std::string getUsage() {
         return this->usage;
     }
-    vector<string> getAliases() {
+    std::vector<std::string> getAliases() {
         return this->aliases_list;
     }
 private:
-    string name;
-    string desc;
-    string usage;
-    vector<string> aliases_list;
+    std::string name;
+    std::string desc;
+    std::string usage;
+    std::vector<std::string> aliases_list;
 };
 
 #endif //BEDROCKPOWDER_COMMAND_HPP

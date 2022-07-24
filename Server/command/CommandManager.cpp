@@ -24,7 +24,7 @@ void CommandManager::registerCommand(class Command* cmd) {
     this->command_map.push_back(cmd);
 }
 
-void CommandManager::handleCommandRequest(CommandOrigin* origin, const string& cmd, const vector<string>& args) {
+void CommandManager::handleCommandRequest(CommandOrigin* origin, const std::string& cmd, const std::vector<std::string>& args) {
     Command* found = nullptr;
     for(auto cmd_f_m : this->command_map) {
         bool should_break = false;
@@ -43,7 +43,7 @@ void CommandManager::handleCommandRequest(CommandOrigin* origin, const string& c
             break;
         }
     }
-    string message_unk = BedrockPowder::getLangConfig()->getTranslatedString("unk_command_message");
+    std::string message_unk = BedrockPowder::getLangConfig()->getTranslatedString("unk_command_message");
     message_unk = Utils::str_replace(message_unk, "{}", cmd);
     if(found == nullptr) {
         origin->getActorSender()->sendMessage(message_unk);

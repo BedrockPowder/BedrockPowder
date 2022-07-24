@@ -9,6 +9,7 @@
 #include <iomanip>
 
 #include "Server/utils/StdEnv.h"
+
 #include "Server/BedrockPowder.h"
 
 enum LogLevel : int {
@@ -20,43 +21,41 @@ enum LogLevel : int {
     DEBUG = 5,
 };
 
-#include <format>
-
 class Logger {
 public:
-    static void log(const string& message, enum LogLevel log_level = LogLevel::INFO) {
+    static void log(const std::string& message, enum LogLevel log_level = LogLevel::INFO) {
         int level = (int)log_level;
-        string logger_title;
+        std::stringstream logger_stream("");
+
+        auto current_time = time(nullptr);
+        logger_stream << "(" << std::put_time(localtime(&current_time), "%Y/%d %b - %H:%M:%S") << ")";
+
         switch (level) {
             case 0:
-                logger_title = "[info]";
+                logger_stream << "[info]:";
                 break;
             case 1:
-                logger_title = "[warn!]";
+                logger_stream << "[warn!]";
                 break;
             case 2:
-                logger_title = "[!error!]";
+                logger_stream << "[!error!]:";
                 break;
             case 3:
-                logger_title = "[emergency!]";
+                logger_stream << "[emergency!]:";
                 break;
             case 4:
-                logger_title = "[notice!]";
+                logger_stream << "[notice!]:";
                 break;
             case 5:
-                logger_title = "[debug]";
+                logger_stream << "[debug!]:";
                 break;
             default:
-                logger_title = "[unknown.]";
+                logger_stream << "[unknown.]";
         }
         if(level == 5 && !BedrockPowder::isDebugMessagesEnabled()) {
             return;
         }
-        stringstream logger_stream("");
-        auto current_time = time(nullptr);
-        logger_stream << "(" << std::put_time(localtime(&current_time), "%Y/%d %b - %H:%M:%S") << ")";
-        logger_stream << logger_title;
-        logger_stream << ": " << message.c_str() << endl;
+        logger_stream << " " << message.c_str() << std::endl;
         printf("%s", logger_stream.str().c_str());
     }
 };

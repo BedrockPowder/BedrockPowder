@@ -11,7 +11,7 @@
 
 class Mob : Actor {
 public:
-    Mob(string name, bool is_player) : Actor(std::move(name), is_player) {}
+    Mob(std::string name, bool is_player) : Actor(std::move(name), is_player) {}
 };
 
 #endif //BEDROCKPOWDER_MOB_HPP

@@ -4,13 +4,13 @@
 
 #include "Server/BedrockPowder.h"
 
-#include "Server/utils/StdEnv.h"
-
 #include <chrono>
 #include <fstream>
 
-#include "Server/Constants.h"
+#include "Server/network/raknet/RakNetHandler.hpp"
+
 #include "Server/logger/Logger.hpp"
+#include "Server/Constants.h"
 #include "Server/utils/Utils.hpp"
 #include "Server/actor/Console.hpp"
 #include "Server/actor/player/Player.hpp"
@@ -20,15 +20,16 @@ static ServerConfiguration* server_config;
 static CommandManager* command_manager;
 static CommandOrigin* console;
 static LangConfiguration* lang_config;
-static vector<class Player*> player_map;
+static std::vector<class Player*> player_map;
 static int max_players = 20;
 
 void wait_for_command() { // NOLINT(misc-no-recursion)
-    string command;
-    getline(cin, command);
+    std::string command;
+    std::cin.clear();
+    getline(std::cin, command);
     if(!command.empty()) {
-        vector<string> split_cmdline = Utils::explode(command, ' ');
-        vector<string> arguments;
+        std::vector<std::string> split_cmdline = Utils::explode(command, ' ');
+        std::vector<std::string> arguments;
         if(split_cmdline.size() == 1) {
             arguments = {};
         } else {
@@ -72,24 +73,21 @@ class ServerConfiguration* BedrockPowder::getServerConfig() {
     return server_config;
 }
 
-void handle_raknet() {
-    string mQueryMessage = "{};{};{};{};{};{};{};{};{};{};{};{};";
+std::string compile_query_msg() {
+    std::string mQueryMessage = "{};{};{};{};{};{};{};{};{};{};{};{};";
     mQueryMessage = Utils::str_replace(mQueryMessage, "{}", GAME_NAME);
     mQueryMessage = Utils::str_replace(mQueryMessage, "{}", BedrockPowder::getServerConfig()->getField("server_name"));
-    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", to_string(PROTOCOL_VERSION));
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", std::to_string(PROTOCOL_VERSION));
     mQueryMessage = Utils::str_replace(mQueryMessage, "{}", MCPE_VERSION);
-    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", to_string(BedrockPowder::getOnlinePlayers()));
+    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", std::to_string(BedrockPowder::getOnlinePlayers()));
     mQueryMessage = Utils::str_replace(mQueryMessage, "{}", BedrockPowder::getServerConfig()->getField("max_players"));
     mQueryMessage = Utils::str_replace(mQueryMessage, "{}", "0");
     mQueryMessage = Utils::str_replace(mQueryMessage, "{}", "BedrockPowder");
     mQueryMessage = Utils::str_replace(mQueryMessage, "{}", "Survival");
     mQueryMessage = Utils::str_replace(mQueryMessage, "{}", "1");
     mQueryMessage = Utils::str_replace(mQueryMessage, "{}", BedrockPowder::getServerConfig()->getField("server_port"));
-    mQueryMessage = Utils::str_replace(mQueryMessage, "{}", "200");
-
-    //mQueryMessage.insert(mQueryMessage.begin(), mQueryMessage.size());
-    //mQueryMessage.insert(mQueryMessage.begin(), 0x00);
-    Logger::log(mQueryMessage, LogLevel::WARN);
+    //mQueryMessage = Utils::str_replace(mQueryMessage, "{}", "200");
+    return mQueryMessage;
 }
 
 int BedrockPowder::getOnlinePlayers() {
@@ -104,17 +102,15 @@ void BedrockPowder::start() {
     // Time from start point.
     auto ms_from = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 
-
-
     server_config = new ServerConfiguration(Utils::getDirectory() + "\\server.json");
     server_config->load();
 
     lang_config = new LangConfiguration(server_config->getField("lang"));
     lang_config->load();
 
-    string mUsing = "This server is running {} version {}";
-    mUsing = Utils::str_replace(mUsing, "{}", string(BEDROCKPOWDER_CORE_NAME));
-    mUsing = Utils::str_replace(mUsing, "{}", string(BEDROCKPOWDER_VERSION));
+    std::string mUsing = "This server is running {} version {}";
+    mUsing = Utils::str_replace(mUsing, "{}", std::string(BEDROCKPOWDER_CORE_NAME));
+    mUsing = Utils::str_replace(mUsing, "{}", std::string(BEDROCKPOWDER_VERSION));
     Logger::log(mUsing);
 
     if(BedrockPowder::isDebugMessagesEnabled()) {
@@ -122,7 +118,7 @@ void BedrockPowder::start() {
     }
 
     if(BEDROCKPOWDER_IS_DEV) {
-        Logger::log("You are running development version of " + string(BEDROCKPOWDER_CORE_NAME) + ".", LogLevel::WARN);
+        Logger::log("You are running development version of " + std::string(BEDROCKPOWDER_CORE_NAME) + ".", LogLevel::WARN);
         Logger::log("Some features that implemented on development version can be", LogLevel::WARN);
         Logger::log("buggy and be unstable. Not RECOMMEND use it on Production.", LogLevel::WARN);
     }
@@ -135,11 +131,14 @@ void BedrockPowder::start() {
     // Time from end point.
     auto ms_to = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
     // Log time, that was consumed for start.
-    string mDone = "Done! ({} ms)! For help type \"/help\"";
-    mDone = Utils::str_replace(mDone, "{}", (to_string(ms_to.count() - ms_from.count())));
+    std::string mDone = "Done! ({} ms)! For help type \"/help\"";
+    mDone = Utils::str_replace(mDone, "{}", std::to_string(ms_to.count() - ms_from.count()));
+    Logger::log(mDone);
 
-    // Command line is waiting for console input.
     wait_for_command();
+
+    auto rknthndlr = new RakNetHandler();
+    rknthndlr->init(19132, "0.0.0.0", 20);
 }
 
 void BedrockPowder::shutdown() {

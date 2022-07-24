@@ -14,7 +14,7 @@
 class HelpCommand : public Command {
 public:
     HelpCommand();
-    CommandResult execute(CommandOrigin* ori, string alias, vector<string> args) override;
+    CommandResult execute(CommandOrigin* ori, std::string alias, std::vector<std::string> args) override;
 };
 
 #endif //BEDROCKPOWDER_HELPCOMMAND_H

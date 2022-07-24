@@ -14,7 +14,7 @@
 class VersionCommand : public Command {
 public:
     VersionCommand();
-    CommandResult execute(CommandOrigin* ori, string alias, vector<string> args) override;
+    CommandResult execute(CommandOrigin* ori, std::string alias, std::vector<std::string> args) override;
 };
 
 #endif //BEDROCKPOWDER_VERSIONCOMMAND_H

@@ -5,10 +5,14 @@
 #ifndef BEDROCKPOWDER_BEDROCKPOWDER_H
 #define BEDROCKPOWDER_BEDROCKPOWDER_H
 
+#include "Server/utils/StdEnv.h"
+
 #include "Server/command/CommandOrigin.hpp"
 #include "Server/command/CommandManager.h"
 #include "Server/config/LangConfiguration.hpp"
 #include "Server/config/ServerConfiguration.hpp"
+
+std::string compile_query_msg();
 
 class BedrockPowder {
 public:

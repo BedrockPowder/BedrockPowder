@@ -33,3 +33,4 @@
 
 # my cmake build target.
 /cmake-build-debug-visual-studio/
+/cmake-build-vs-r/

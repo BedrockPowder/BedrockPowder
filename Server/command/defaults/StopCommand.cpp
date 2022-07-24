@@ -7,7 +7,7 @@
 
 StopCommand::StopCommand() : Command("stop", "Stops the server") {}
 
-CommandResult StopCommand::execute(CommandOrigin *ori, string alias, vector<string> args) {
+CommandResult StopCommand::execute(CommandOrigin *ori, std::string alias, std::vector<std::string> args) {
     BedrockPowder::shutdown();
     return CommandResult::SUCCESS;
 }

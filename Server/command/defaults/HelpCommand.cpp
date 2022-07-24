@@ -6,9 +6,9 @@
 
 HelpCommand::HelpCommand() : Command("help", "Shows list of all available commands.") {}
 
-CommandResult HelpCommand::execute(CommandOrigin *ori, string alias, vector<string> args) {
-    vector<string> message;
-    message.push_back("Showing help. (" + to_string(BedrockPowder::getCommandManager()->getCommands().size()) + " command(-s) )");
+CommandResult HelpCommand::execute(CommandOrigin *ori, std::string alias, std::vector<std::string> args) {
+    std::vector<std::string> message;
+    message.push_back("Showing help. (" + std::to_string(BedrockPowder::getCommandManager()->getCommands().size()) + " command(-s) )");
     for(auto command : BedrockPowder::getCommandManager()->getCommands()) {
         message.push_back(command->getName() + ": " + command->getDescription());
     }

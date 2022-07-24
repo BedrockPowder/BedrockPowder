@@ -13,8 +13,8 @@
 
 class MessageReciever : public Actor {
 public:
-    MessageReciever(string name, bool is_player) : Actor(std::move(name), is_player) {}
-    virtual void sendMessage(string) = 0;
+    MessageReciever(std::string name, bool is_player) : Actor(std::move(name), is_player) {}
+    virtual void sendMessage(std::string) = 0;
 };
 
 #endif //BEDROCKPOWDER_MESSAGERECIEVER_HPP

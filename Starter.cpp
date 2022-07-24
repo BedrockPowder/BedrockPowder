@@ -8,7 +8,7 @@ int main() {
     try {
         BedrockPowder::start();
     } catch (std::exception e) {
-        cerr << "Something went wrong.\n" << e.what() << endl;
+        std::cout << "Something went wrong.\n" << e.what() << std::endl;
         system("pause");
     }
 }

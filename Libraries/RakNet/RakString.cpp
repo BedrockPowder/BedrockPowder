@@ -450,15 +450,18 @@ void RakString::SetChar( unsigned index, RakNet::RakString s )
 }
 
 #ifdef _WIN32
+
+#include <iostream>
+
 WCHAR * RakString::ToWideChar(void)
 {
 	//
 	// Special case of NULL or empty input string
 	//
-	if ( (sharedString->c_str == NULL) || (*sharedString->c_str == '\0') )
+	if ( (sharedString->c_str == nullptr) || (*sharedString->c_str == '\0') )
 	{
 		// Return empty string
-		return L" ";
+		return nullptr;
 	}
 
 	//

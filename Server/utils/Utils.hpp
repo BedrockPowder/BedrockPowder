@@ -14,17 +14,17 @@
 
 class Utils {
 public:
-    static vector<string> explode(string const & target_string, char delimiter) {
-        vector<string> result;
-        istringstream iss(target_string);
-        for (string token; getline(iss, token, delimiter); ) {
+    static std::vector<std::string> explode(std::string const & target_string, char delimiter) {
+        std::vector<std::string> result;
+        std::istringstream iss(target_string);
+        for (std::string token; getline(iss, token, delimiter); ) {
             result.push_back(move(token));
         }
         return result;
     }
 
-    static string implode(const vector<string>& target, char delimiter) {
-        string basicString;
+    static std::string implode(const std::vector<std::string>& target, char delimiter) {
+        std::string basicString;
         for (auto iter = target.begin(); iter != target.end(); ++iter) {
             basicString += (*iter);
             if (iter + 1 != target.end() ) {
@@ -43,7 +43,7 @@ public:
         return str;
     }
 
-    static string getDirectory() {
+    static std::string getDirectory() {
         char dir_to_return[FILENAME_MAX];
         _getcwd(dir_to_return, sizeof(dir_to_return));
         return dir_to_return;

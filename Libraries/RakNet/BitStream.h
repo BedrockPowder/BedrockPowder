@@ -60,7 +60,7 @@ namespace RakNet
 		/// \param[in] initialBytesToAllocate the number of bytes to pre-allocate.
 		BitStream( const unsigned int initialBytesToAllocate );
 
-		/// \brief Initialize the BitStream, immediately setting the data it contains to a predefined pointer.
+		/// \brief init the BitStream, immediately setting the data it contains to a predefined pointer.
 		/// \details Set \a _copyData to true if you want to make an internal copy of the data you are passing. Set it to false to just save a pointer to the data.
 		/// You shouldn't call Write functions with \a _copyData as false, as this will write to unallocated memory
 		/// 99% of the time you will use this function to cast Packet::data to a bitstream for reading, in which case you should write something as follows:

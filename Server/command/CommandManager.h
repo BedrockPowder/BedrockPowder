@@ -19,12 +19,12 @@ public:
     CommandManager() = default;
     void init();
     void registerCommand(class Command*);
-    vector<class Command*> getCommands() {
+    std::vector<class Command*> getCommands() {
         return this->command_map;
     }
-    void handleCommandRequest(CommandOrigin*, const string&, const vector<string>&);
+    void handleCommandRequest(CommandOrigin*, const std::string&, const std::vector<std::string>&);
 private:
-    vector<class Command*> command_map;
+    std::vector<class Command*> command_map;
 };
 
 
