@@ -9,7 +9,7 @@
 
 #include "Server/actor/Actor.hpp"
 
-class Mob : Actor {
+class Mob : public Actor {
 public:
     Mob(std::string name, bool is_player) : Actor(std::move(name), is_player) {}
 };

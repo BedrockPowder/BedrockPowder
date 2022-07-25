@@ -22,7 +22,7 @@ public:
     std::string getName() {
         return this->name;
     }
-private:
+protected:
     bool is_player;
     std::string name;
 };

@@ -3931,8 +3931,7 @@ implementations of some @ref basic_json methods, and meta-programming helpers.
         };
 
 
-        template<typename OfType, typename T>
-        struct value_in_range_of_impl2<OfType, T, true, true>
+        template<typename OfType, typename T>struct value_in_range_of_impl2<OfType, T, true, true>
         {
             static constexpr bool test(T val)
             {

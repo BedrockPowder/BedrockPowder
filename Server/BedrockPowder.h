@@ -7,6 +7,8 @@
 
 #include "Server/utils/StdEnv.h"
 
+#include "Server/actor/player/Player.hpp"
+
 #include "Server/command/CommandOrigin.hpp"
 #include "Server/command/CommandManager.h"
 #include "Server/config/LangConfiguration.hpp"
@@ -18,6 +20,7 @@ class BedrockPowder {
 public:
     static void start();
     static void shutdown();
+    static std::vector<class Player*> getAllPlayers();
     static int getOnlinePlayers();
     static class CommandManager* getCommandManager();
     static class ServerConfiguration* getServerConfig();

@@ -11,9 +11,11 @@
 #include "Server/actor/Actor.hpp"
 #include "Server/actor/Mob.hpp"
 
-class Player : MessageReciever, Mob {
+class Player : public MessageReciever, public Mob {
 public:
-    Player(std::string name) : MessageReciever(std::move(name), true), Mob(std::move(name), true) {}
+    Player(std::string name) : Mob(std::move(name), true) {
+        //this->name = name;
+    }
 };
 
 #endif //BEDROCKPOWDER_PLAYER_HPP

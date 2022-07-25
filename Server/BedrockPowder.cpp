@@ -4,6 +4,7 @@
 
 #include "Server/BedrockPowder.h"
 
+#include <thread>
 #include <chrono>
 #include <fstream>
 
@@ -13,14 +14,13 @@
 #include "Server/Constants.h"
 #include "Server/utils/Utils.hpp"
 #include "Server/actor/Console.hpp"
-#include "Server/actor/player/Player.hpp"
 #include "Server/network/ProtocolInfo.h"
 
 static ServerConfiguration* server_config;
 static CommandManager* command_manager;
 static CommandOrigin* console;
 static LangConfiguration* lang_config;
-static std::vector<class Player*> player_map;
+static std::vector<class Player*> player_map {};
 static int max_players = 20;
 
 void wait_for_command() { // NOLINT(misc-no-recursion)
@@ -49,6 +49,10 @@ void wait_for_command() { // NOLINT(misc-no-recursion)
         return;
     }
     wait_for_command();
+}
+
+std::vector<Player*> BedrockPowder::getAllPlayers() {
+    return player_map;
 }
 
 bool BedrockPowder::isDebugMessagesEnabled() {
@@ -135,7 +139,8 @@ void BedrockPowder::start() {
     mDone = Utils::str_replace(mDone, "{}", std::to_string(ms_to.count() - ms_from.count()));
     Logger::log(mDone);
 
-    wait_for_command();
+    std::thread command_thread(wait_for_command);
+    command_thread.join();
 
     auto rknthndlr = new RakNetHandler();
     rknthndlr->init(19132, "0.0.0.0", 20);
