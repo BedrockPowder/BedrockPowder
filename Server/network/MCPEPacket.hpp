@@ -8,7 +8,8 @@
 #include "Server/utils/StdEnv.h"
 #include "Server/utils/BinaryStream.hpp"
 
-class MCPEPacket {
+template<typename PTy>
+class MCPEPacket : PTy {
 public:
     explicit MCPEPacket(int packet_id) {
         this->packet_id = packet_id;
@@ -16,7 +17,7 @@ public:
     virtual void write(BinaryStream*) = 0;
     virtual void read(BinaryStream*) = 0;
 private:
-    int packet_id;
+    int packet_id{};
 };
 
 #endif //BEDROCKPOWDER_MCPEPACKET_HPP
