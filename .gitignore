@@ -36,3 +36,5 @@
 /cmake-build-vs-r/
 /cmake-build-linux/
 /cmake-build-debug/
+# dependencies.
+/RakNet/
