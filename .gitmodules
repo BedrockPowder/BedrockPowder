@@ -1,4 +1,0 @@
-[submodule "Libraries"]
-	path = RakNet
-	url = https://github.com/BedrockPowder/RakNet.git
-      branch = main
