@@ -1,4 +1,4 @@
-//
+﻿//
 // Created by pepef on 22.07.2022.
 //
 
@@ -25,6 +25,7 @@ public:
     static class CommandManager* getCommandManager();
     static class ServerConfiguration* getServerConfig();
     static class CommandOrigin* getConsoleOrigin();
+    static class PacketStorage* getPacketStorage();
     static bool isDebugMessagesEnabled();
     static class LangConfiguration* getLangConfig();
 };

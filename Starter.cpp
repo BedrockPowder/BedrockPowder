@@ -4,13 +4,29 @@
 
 #include <thread>
 #include "Server/BedrockPowder.h"
+#include <csignal>
+#include "Server/logger/Logger.hpp"
+
+void signal_handler(int signal) {
+    if(signal == 2) {
+        Logger::log("Recieved signal interrupt. Server will shutdown.");
+        BedrockPowder::shutdown();
+    }
+}
 
 int main() {
+    signal(SIGINT, signal_handler);
     try {
-        std::thread thread(BedrockPowder::start);
-        thread.join();
+        BedrockPowder::start();
     } catch (std::exception e) {
-        std::cout << "Something went wrong.\n" << e.what() << std::endl;
-        system("pause");
+        Logger::log("Something went wrong.\nException output: {}", LogLevel::ERROR_, {e.what()});
+        Logger::log("Server is on limbo. After 20 seconds server process will exit. You can kill process safely.", LogLevel::EMERGENCY);
+        int millis = 0;
+        while(true) {
+            if(millis > 20000) {
+                exit(-2);
+            }
+            millis++;
+        }
     }
 }

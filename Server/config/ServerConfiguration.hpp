@@ -19,8 +19,7 @@ public:
         if(!read) {
             this->json_storage["server_name"] = std::string(BEDROCKPOWDER_CORE_NAME) + " Server";
             this->json_storage["server_ip"] = "0.0.0.0";
-            this->json_storage["server_port"] = "19132";
-            //this->json_storage["server_ip"] = "";
+            this->json_storage["server_port"] = 19132;
             this->json_storage["lang"] = "en-us";
             this->json_storage["debug_level"] = 0;
             this->json_storage["max_players"] = 20;
@@ -36,7 +35,7 @@ public:
         std::string string_to_return;
         try {
             string_to_return = to_string(this->json_storage[field]);
-            if(field != "debug_level" && field != "max_players") {
+            if(field != "debug_level" && field != "max_players" && field != "server_port") {
                 string_to_return.erase(string_to_return.begin(), string_to_return.begin() + 1);
                 string_to_return.pop_back();
             }

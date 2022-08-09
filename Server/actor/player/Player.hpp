@@ -11,9 +11,9 @@
 #include "Server/actor/Actor.hpp"
 #include "Server/actor/Mob.hpp"
 
-class Player : public MessageReciever, public Mob {
+class Player : public MessageReciever {
 public:
-    Player(std::string name) : Mob(std::move(name), true) {
+    Player(std::string name1, bool isPlayer, std::string name) : MessageReciever(name1, isPlayer) /*Mob(std::move(name), true)*/ {
         //this->name = name;
     }
 };

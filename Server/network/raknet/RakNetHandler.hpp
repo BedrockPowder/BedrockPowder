@@ -15,6 +15,7 @@
 #include "RakPeerInterface.h"
 #include "RakNetTypes.h"
 #include "BitStream.h"
+#include "Server/logger/Logger.hpp"
 
 class RakNetHandler {
 public:
@@ -31,7 +32,6 @@ public:
             motd << compile_query_msg();
             std::string message = motd.str();
 
-            // Adding size of packet
             message.insert(message.begin(), (signed char)message.size());
             message.insert(message.begin(), 0x00);
 
@@ -46,7 +46,6 @@ public:
     void handle(RakNet::RakPeerInterface *peer) {
         RakNet::Packet *packet;
         for(packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive()) {
-            //printf("[packetName(%c)]data: %s\n", packet->data[0], packet->data);
             switch(packet->data[0]) {
                 case 0xFE: {
                     RakNet::BitStream stream(packet->data, packet->length, false);

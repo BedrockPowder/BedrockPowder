@@ -10,9 +10,9 @@
 #include "Server/actor/MessageReciever.hpp"
 #include "Server/logger/Logger.hpp"
 
-class Console : public MessageReciever, public Actor {
+class Console : public MessageReciever {
 public:
-    Console() : Actor("console", false) {}
+    Console(std::string name, bool isPlayer) : MessageReciever(name, isPlayer) {}
     void sendMessage(std::string message) override {
         Logger::log(message);
     }

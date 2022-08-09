@@ -7,6 +7,6 @@
 
 #define BEDROCKPOWDER_IS_DEV true
 #define BEDROCKPOWDER_CORE_NAME "BedrockPowder"
-#define BEDROCKPOWDER_VERSION "1.0.2-alpha"
+#define BEDROCKPOWDER_VERSION "1.0.3-alpha"
 
 #endif //BEDROCKPOWDER_CONSTANTS_H

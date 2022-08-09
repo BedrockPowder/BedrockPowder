@@ -11,12 +11,14 @@
 #include "Server/command/defaults/HelpCommand.h"
 #include "Server/command/defaults/ListCommand.h"
 #include "Server/command/defaults/VersionCommand.h"
+#include "Server/command/defaults/SayCommand.h"
 
 void CommandManager::init() {
     this->registerCommand(new HelpCommand());
     this->registerCommand(new StopCommand());
     this->registerCommand(new ListCommand());
     this->registerCommand(new VersionCommand());
+    this->registerCommand(new SayCommand());
 }
 
 void CommandManager::registerCommand(class Command* cmd) {

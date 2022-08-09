@@ -7,6 +7,5 @@
 
 #include <iostream>
 #include <string>
-//using namespace std;
 
 #endif //BEDROCKPOWDER_STDENV_H

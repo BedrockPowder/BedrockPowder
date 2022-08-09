@@ -9,54 +9,80 @@
 #include <iomanip>
 
 #include "Server/utils/StdEnv.h"
+#include "Server/utils/MCTextFormat.h"
 
 #include "Server/BedrockPowder.h"
 
 enum LogLevel : int {
-    INFO = 0,
-    WARN = 1,
-    ERROR_ = 2,
-    EMERGENCY = 3,
-    NOTICE = 4,
-    DEBUG = 5,
+    INFO = 0, WARN = 1, ERROR_ = 2, EMERGENCY = 3, NOTICE = 4, DEBUG = 5,
 };
+
+static std::map<std::string, std::string> mcpecolors2console{{"§0", TEXTFORMAT_BLACK}, {"§1", TEXTFORMAT_DARK_BLUE}, {"§2", TEXTFORMAT_DARK_GREEN}, {"§3", TEXTFORMAT_DARK_AQUA}, {"§4", TEXTFORMAT_DARK_RED}, {"§5", TEXTFORMAT_DARK_PURPLE}, {"§6", TEXTFORMAT_GOLD}, {"§7", TEXTFORMAT_GRAY}, {"§8", TEXTFORMAT_DARK_GREY}, {"§9", TEXTFORMAT_BLUE}, {"§a", TEXTFORMAT_GREEN}, {"§b", TEXTFORMAT_AQUA}, {"§c", TEXTFORMAT_RED}, {"§d", TEXTFORMAT_LIGHT_PURPLE}, {"§e", TEXTFORMAT_YELLOW}, {"§f", TEXTFORMAT_WHITE}, {"§g", TEXTFORMAT_MINECOIN_GOLD}, {"§k", TEXTFORMAT_OBFUSCATED}, {"§l", TEXTFORMAT_BOLD}, {"§m", TEXTFORMAT_STRIKE_THROUGH}, {"§n", TEXTFORMAT_UNDERLINE}, {"§o", TEXTFORMAT_ITALIC}, {"§r", TEXTFORMAT_RESET}};
 
 class Logger {
 public:
-    static void log(const std::string& message, enum LogLevel log_level = LogLevel::INFO) {
-        int level = (int)log_level;
-        std::stringstream logger_stream("");
+    static void log(const std::string &message) {
+        log(message, LogLevel::INFO, {});
+    }
 
-        auto current_time = time(nullptr);
-        logger_stream << "(" << std::put_time(localtime(&current_time), "%Y/%d %b - %H:%M:%S") << ")";
+    static void log(const std::string &message, enum LogLevel log_level) {
+        log(message, log_level, {});
+    }
 
-        switch (level) {
+    static void log(const std::string &message, std::vector<std::string> args) {
+        log(message, LogLevel::INFO, args);
+    }
+
+    static void log(const std::string &message, enum LogLevel log_level, std::vector<std::string> args) {
+        int level = (int) log_level;
+        std::string s;
+        std::string format;
+        switch(level) {
             case 0:
-                logger_stream << "[info]:";
+                format = TEXTFORMAT_BLUE;
+                s = "info";
                 break;
             case 1:
-                logger_stream << "[warn!]";
+                format = TEXTFORMAT_YELLOW;
+                s = "warn!";
                 break;
             case 2:
-                logger_stream << "[!error!]:";
+                format = TEXTFORMAT_RED;
+                s = "!error!";
                 break;
             case 3:
-                logger_stream << "[emergency!]:";
+                format = TEXTFORMAT_DARK_RED;
+                s = "emergency!";
                 break;
             case 4:
-                logger_stream << "[notice!]:";
+                format = TEXTFORMAT_YELLOW;
+                s = "notice!";
                 break;
             case 5:
-                logger_stream << "[debug!]:";
+                format = TEXTFORMAT_DARK_GREY;
+                s = "debug";
                 break;
             default:
-                logger_stream << "[unknown.]";
+                format = TEXTFORMAT_DARK_GREY;
+                s = "unknown.";
         }
+        std::string s2;
         if(level == 5 && !BedrockPowder::isDebugMessagesEnabled()) {
+            s2 = TEXTFORMAT_GRAY;
             return;
         }
-        logger_stream << " " << message.c_str() << std::endl;
-        printf("%s", logger_stream.str().c_str());
+        std::stringstream timestream("");
+        auto current_time = time(nullptr);
+        std::string end_message = message;
+        for(auto pair : mcpecolors2console) {
+            end_message = Utils::str_replace_a(end_message, pair.first, pair.second);
+        }
+        for(auto ssss : args) {
+            end_message = Utils::str_replace(end_message, "{}", ssss);
+        }
+        std::stringstream logger("");
+        logger << TEXTFORMAT_GRAY << "[" << std::put_time(localtime(&current_time), "%d %b - %H:%M:%S") << "]" << TEXTFORMAT_RESET << format << " [" << s << "]" << TEXTFORMAT_RESET << "> " << s2 << end_message << TEXTFORMAT_RESET << std::endl;
+        printf("%s", logger.str().c_str());
     }
 };
 

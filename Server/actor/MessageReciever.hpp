@@ -11,9 +11,9 @@
 
 #include "Server/actor/Actor.hpp"
 
-class MessageReciever {
+class MessageReciever : public Actor {
 public:
-    MessageReciever() = default;
+    MessageReciever(std::string name, bool is_player) : Actor(name, is_player) {}
     virtual void sendMessage(std::string) = 0;
 };
 

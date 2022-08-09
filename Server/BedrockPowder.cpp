@@ -1,4 +1,4 @@
-﻿//
+//
 // Created by pepef on 29.06.2022.
 //
 
@@ -15,12 +15,16 @@
 #include "Server/utils/Utils.hpp"
 #include "Server/actor/Console.hpp"
 #include "Server/network/ProtocolInfo.h"
+#include "Server/network/pstorage/PacketStorage.hpp"
+#include "Server/network/packets/LoginPacket.hpp"
+#include "Server/network/packets/PlayStatusPacket.hpp"
 
 static ServerConfiguration* server_config;
 static CommandManager* command_manager;
 static CommandOrigin* console;
 static LangConfiguration* lang_config;
-static std::vector<class Player*> player_map {};
+static PacketStorage* packet_store;
+static std::vector<class Player*> player_map{};
 static int max_players = 20;
 
 void wait_for_command() { // NOLINT(misc-no-recursion)
@@ -43,10 +47,6 @@ void wait_for_command() { // NOLINT(misc-no-recursion)
             }
         }
         BedrockPowder::getCommandManager()->handleCommandRequest(BedrockPowder::getConsoleOrigin(), split_cmdline[0], arguments);
-    }
-    if(command == "///////////////////////////") {
-        // This is a workaround because compiler don't like infinite recursions.
-        return;
     }
     wait_for_command();
 }
@@ -77,6 +77,10 @@ class ServerConfiguration* BedrockPowder::getServerConfig() {
     return server_config;
 }
 
+class PacketStorage* BedrockPowder::getPacketStorage() {
+    return packet_store;
+}
+
 std::string compile_query_msg() {
     std::string mQueryMessage = "{};{};{};{};{};{};{};{};{};{};{};{};";
     mQueryMessage = Utils::str_replace(mQueryMessage, "{}", GAME_NAME);
@@ -95,14 +99,15 @@ std::string compile_query_msg() {
 }
 
 int BedrockPowder::getOnlinePlayers() {
-    int ret_v = 0;
-    for(auto ignored_player : player_map) {
-        ret_v++;
-    }
-    return ret_v;
+    return player_map.size();
 }
 
+#include <ppl.h>
+
 void BedrockPowder::start() {
+#ifdef _WIN32
+    system("chcp 1251");
+#endif // _WIN32
     // Time from start point.
     auto ms_from = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 
@@ -112,42 +117,48 @@ void BedrockPowder::start() {
     lang_config = new LangConfiguration(server_config->getField("lang"));
     lang_config->load();
 
-    std::string mUsing = "This server is running {} version {}";
-    mUsing = Utils::str_replace(mUsing, "{}", std::string(BEDROCKPOWDER_CORE_NAME));
-    mUsing = Utils::str_replace(mUsing, "{}", std::string(BEDROCKPOWDER_VERSION));
-    Logger::log(mUsing);
+    Logger::log("This server is running {} version {}", {std::string(BEDROCKPOWDER_CORE_NAME), std::string(BEDROCKPOWDER_VERSION)});
 
     if(BedrockPowder::isDebugMessagesEnabled()) {
         Logger::log("Debug log enabled.");
     }
 
+    //BinaryStream* s = new BinaryStream();
+    //s->put_byte(1);
+
+    packet_store = new PacketStorage();
+    packet_store->registerPacket(new LoginPacket());
+    packet_store->registerPacket(new PlayStatusPacket());
+
     if(BEDROCKPOWDER_IS_DEV) {
-        Logger::log("You are running development version of " + std::string(BEDROCKPOWDER_CORE_NAME) + ".", LogLevel::WARN);
+        Logger::log("You are running development version of {}.", LogLevel::WARN, {std::string(BEDROCKPOWDER_CORE_NAME)});
         Logger::log("Some features that implemented on development version can be", LogLevel::WARN);
         Logger::log("buggy and be unstable. Not RECOMMEND use it on Production.", LogLevel::WARN);
     }
 
     // Command related things.
-    console = new CommandOrigin(new Console());
+    console = new CommandOrigin(new Console("server", false));
     command_manager = new CommandManager();
     command_manager->init();
 
     // Time from end point.
     auto ms_to = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
     // Log time, that was consumed for start.
-    std::string mDone = "Done! ({} ms)! For help type \"/help\"";
-    mDone = Utils::str_replace(mDone, "{}", std::to_string(ms_to.count() - ms_from.count()));
-    Logger::log(mDone);
+    Logger::log("Done! ({} ms)! For help type \"help\"",{std::to_string(ms_to.count() - ms_from.count())});
 
-    std::thread command_thread(wait_for_command);
-    command_thread.join();
-
-    auto rknthndlr = new RakNetHandler();
-    rknthndlr->init(19132, "0.0.0.0", 20);
+    concurrency::parallel_invoke(
+            [](){
+                std::thread command_thread(wait_for_command);
+                command_thread.join();
+                },
+            [](){
+                auto rknthndlr = new RakNetHandler();
+                rknthndlr->init(std::stoi(server_config->getField("server_port")), server_config->getField("server_ip"), max_players);
+            }
+            );
 }
 
 void BedrockPowder::shutdown() {
     Logger::log("Shutdown.");
-    system("pause");
     exit(6);
 }
