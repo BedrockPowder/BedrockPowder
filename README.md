@@ -19,3 +19,7 @@
     "server_name": "BedrockPowder Server"
 }</code>
 </pre>
+<h1>Special Thanks</h1>
+<h4>https://github.com/MFDGaming/CBinaryStream - for BinaryStream</h4>
+<h4>https://github.com/ProjectKatana/Katana - For help in opening RakNet server and using it.</h4>
+<h4></h4>
