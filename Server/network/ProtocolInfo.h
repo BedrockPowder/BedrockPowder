@@ -7,11 +7,23 @@
 
 #include "Server/utils/StdEnv.h"
 
+// Game version
 #define MCPE_VERSION "1.19.11.01"
+
+// Game name
 #define GAME_NAME "MCPE"
+
+// Game protocol version
 #define PROTOCOL_VERSION 534
 
-// todo: automate.
+// The id of the packet that is sent by the client and server to exchange data.
+#define MCPE_GAME_PACKET 0xfe
+
+// Prefix that separates packet from garbage?
+#define RAKNET_MAGIC "\0x00\0xff\0xff\0x00\0xfe\0xfe\0xfe\0xfe\0xfd\0xfd\0xfd\0xfd\0x12\0x34\0x56\0x78"
+
+// Enumeration with MCPE packet IDs.
+// In ideal I plan to automate filling this enum.
 enum PacketIDs : int {
     login_packet = 0x01,
     play_status_packet = 0x02,

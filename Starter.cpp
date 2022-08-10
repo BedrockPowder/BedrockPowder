@@ -20,13 +20,7 @@ int main() {
         BedrockPowder::start();
     } catch (std::exception e) {
         Logger::log("Something went wrong.\nException output: {}", LogLevel::ERROR_, {e.what()});
-        Logger::log("Server is on limbo. After 20 seconds server process will exit. You can kill process safely.", LogLevel::EMERGENCY);
-        int millis = 0;
-        while(true) {
-            if(millis > 20000) {
-                exit(-2);
-            }
-            millis++;
-        }
+        system("pause");
+        exit(-6);
     }
 }

@@ -12,10 +12,12 @@
 #include "Server/network/ProtocolInfo.h"
 #include "Server/BedrockPowder.h"
 
-#include "RakPeerInterface.h"
-#include "RakNetTypes.h"
-#include "BitStream.h"
+#include <RakPeerInterface.h>
+#include <RakNetTypes.h>
+#include <BitStream.h>
 #include "Server/logger/Logger.hpp"
+
+#include "Server/utils/ZlibHelper.hpp"
 
 class RakNetHandler {
 public:
@@ -28,9 +30,7 @@ public:
 
         if(peer->Startup(max_players, &descriptor, 1) == RakNet::RAKNET_STARTED) {
             peer->SetMaximumIncomingConnections(max_players);
-            std::ostringstream motd;
-            motd << compile_query_msg();
-            std::string message = motd.str();
+            std::string message = compile_query_msg();
 
             message.insert(message.begin(), (signed char)message.size());
             message.insert(message.begin(), 0x00);
@@ -47,11 +47,25 @@ public:
         RakNet::Packet *packet;
         for(packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive()) {
             switch(packet->data[0]) {
+                // Catch encrypted(?) encapsulated MCPE Packet.
+                // So now I dont know is packets encrypted @see(?) https://wiki.vg/Raknet_Protocol#Open_Connection_Request_2
                 case 0xFE: {
-                    RakNet::BitStream stream(packet->data, packet->length, false);
-                    stream.IgnoreBytes(sizeof(RakNet::MessageID));
-                    int length;
-                    stream.Read(length);
+                    Logger::log("MCPE Game packet recieved.");
+                    break;
+                }
+                // Catch New Incoming Connection.
+                case 0x13: {
+                    Logger::log("{} trying to connect.", {packet->systemAddress.ToString(true)});
+                    break;
+                }
+                // Catch Disconnect.
+                case 0x15: {
+                    Logger::log("{} disconnected.", {packet->systemAddress.ToString(true)});
+                    break;
+                }
+                // Catch Unconnected Ping.
+                case 0x01: {
+                    Logger::log("Server has pinged(from {}).", LogLevel::DEBUG, {packet->systemAddress.ToString(true)});
                     break;
                 }
             }

@@ -38,3 +38,5 @@
 /cmake-build-debug/
 # dependencies.
 /RakNet/
+/MiniZ/
+/Zlib/
