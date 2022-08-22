@@ -28,7 +28,6 @@ public:
         std::ifstream read(dir);
         if(!read) {
             this->config["unk_command_message"] = "Unknown command: {}. Use command /help to get all available commands.";
-            //this->config[""] = "";
             std::ofstream write(dir);
             write << std::setw(4) << this->config << std::endl;
             return;
