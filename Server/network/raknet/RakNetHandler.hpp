@@ -17,8 +17,6 @@
 #include <BitStream.h>
 #include "Server/logger/Logger.hpp"
 
-#include "Server/utils/ZlibHelper.hpp"
-
 class RakNetHandler {
 public:
     RakNetHandler() = default;
