@@ -10,6 +10,7 @@
 #include "Server/actor/MessageReciever.hpp"
 #include "Server/command/Command.hpp"
 #include "Server/Constants.h"
+#include "Server/Network/ProtocolInfo.h"
 
 class VersionCommand : public Command {
 public:

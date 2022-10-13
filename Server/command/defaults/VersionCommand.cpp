@@ -9,6 +9,7 @@ VersionCommand::VersionCommand() : Command("version", "Show version of this serv
 CommandResult VersionCommand::execute(CommandOrigin *ori, std::string alias, std::vector<std::string> args) {
     std::vector<std::string> message;
     message.push_back("This server is using " + std::string(BEDROCKPOWDER_CORE_NAME) + " version " + std::string(BEDROCKPOWDER_VERSION));
+    message.push_back("Minecraft Version: " + std::string(MCPE_VERSION) + ", Protocol: " + std::to_string(PROTOCOL_VERSION));
     message.push_back("C++ Version: " + std::to_string(__cplusplus));
     for(const auto& msg_piece : message) {
         ori->getActorSender()->sendMessage(msg_piece);

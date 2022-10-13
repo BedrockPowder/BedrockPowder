@@ -17,7 +17,7 @@ enum LogLevel : int {
     INFO = 0, WARN = 1, ERROR_ = 2, EMERGENCY = 3, NOTICE = 4, DEBUG = 5,
 };
 
-static std::map<std::string, std::string> mcpecolors2console{{"§0", TEXTFORMAT_BLACK}, {"§1", TEXTFORMAT_DARK_BLUE}, {"§2", TEXTFORMAT_DARK_GREEN}, {"§3", TEXTFORMAT_DARK_AQUA}, {"§4", TEXTFORMAT_DARK_RED}, {"§5", TEXTFORMAT_DARK_PURPLE}, {"§6", TEXTFORMAT_GOLD}, {"§7", TEXTFORMAT_GRAY}, {"§8", TEXTFORMAT_DARK_GREY}, {"§9", TEXTFORMAT_BLUE}, {"§a", TEXTFORMAT_GREEN}, {"§b", TEXTFORMAT_AQUA}, {"§c", TEXTFORMAT_RED}, {"§d", TEXTFORMAT_LIGHT_PURPLE}, {"§e", TEXTFORMAT_YELLOW}, {"§f", TEXTFORMAT_WHITE}, {"§g", TEXTFORMAT_MINECOIN_GOLD}, {"§k", TEXTFORMAT_OBFUSCATED}, {"§l", TEXTFORMAT_BOLD}, {"§m", TEXTFORMAT_STRIKE_THROUGH}, {"§n", TEXTFORMAT_UNDERLINE}, {"§o", TEXTFORMAT_ITALIC}, {"§r", TEXTFORMAT_RESET}};
+static std::map<std::string, std::string> mcpecolors2console{{"ï¿½0", TEXTFORMAT_BLACK}, {"ï¿½1", TEXTFORMAT_DARK_BLUE}, {"ï¿½2", TEXTFORMAT_DARK_GREEN}, {"ï¿½3", TEXTFORMAT_DARK_AQUA}, {"ï¿½4", TEXTFORMAT_DARK_RED}, {"ï¿½5", TEXTFORMAT_DARK_PURPLE}, {"ï¿½6", TEXTFORMAT_GOLD}, {"ï¿½7", TEXTFORMAT_GRAY}, {"ï¿½8", TEXTFORMAT_DARK_GREY}, {"ï¿½9", TEXTFORMAT_BLUE}, {"ï¿½a", TEXTFORMAT_GREEN}, {"ï¿½b", TEXTFORMAT_AQUA}, {"ï¿½c", TEXTFORMAT_RED}, {"ï¿½d", TEXTFORMAT_LIGHT_PURPLE}, {"ï¿½e", TEXTFORMAT_YELLOW}, {"ï¿½f", TEXTFORMAT_WHITE}, {"ï¿½g", TEXTFORMAT_MINECOIN_GOLD}, {"ï¿½k", TEXTFORMAT_OBFUSCATED}, {"ï¿½l", TEXTFORMAT_BOLD}, {"ï¿½m", TEXTFORMAT_STRIKE_THROUGH}, {"ï¿½n", TEXTFORMAT_UNDERLINE}, {"ï¿½o", TEXTFORMAT_ITALIC}, {"ï¿½r", TEXTFORMAT_RESET}};
 
 class Logger {
 public:
@@ -40,31 +40,31 @@ public:
         switch(level) {
             case 0:
                 format = TEXTFORMAT_BLUE;
-                s = "info";
+                s = "INFO";
                 break;
             case 1:
                 format = TEXTFORMAT_YELLOW;
-                s = "warn!";
+                s = "WARN";
                 break;
             case 2:
                 format = TEXTFORMAT_RED;
-                s = "!error!";
+                s = "ERROR";
                 break;
             case 3:
                 format = TEXTFORMAT_DARK_RED;
-                s = "emergency!";
+                s = "EMERGENCY";
                 break;
             case 4:
                 format = TEXTFORMAT_YELLOW;
-                s = "notice!";
+                s = "NOTICE";
                 break;
             case 5:
                 format = TEXTFORMAT_DARK_GREY;
-                s = "debug";
+                s = "DEBUG";
                 break;
             default:
                 format = TEXTFORMAT_DARK_GREY;
-                s = "unknown.";
+                s = "UNKNOWN";
         }
         std::string s2;
         if(level == 5 && !BedrockPowder::isDebugMessagesEnabled()) {

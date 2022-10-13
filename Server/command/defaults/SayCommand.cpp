@@ -4,7 +4,7 @@
 
 #include "Server/command/defaults/SayCommand.h"
 
-SayCommand::SayCommand() : Command("say", "Brooadcasts the message to all", "/say <message...>") {}
+SayCommand::SayCommand() : Command("say", "Broadcasts the message to all", "/say <message...>") {}
 
 CommandResult SayCommand::execute(CommandOrigin *ori, std::string alias, std::vector<std::string> args) {
     if(args.size() == 0) {

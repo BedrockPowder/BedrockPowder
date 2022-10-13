@@ -8,13 +8,13 @@
 #include "Server/utils/StdEnv.h"
 
 // Game version
-#define MCPE_VERSION "1.19.11.01"
+#define MCPE_VERSION "1.19.30.04"
 
 // Game name
 #define GAME_NAME "MCPE"
 
 // Game protocol version
-#define PROTOCOL_VERSION 534
+#define PROTOCOL_VERSION 554
 
 // The id of the packet that is sent by the client and server to exchange data.
 #define MCPE_GAME_PACKET 0xfe
