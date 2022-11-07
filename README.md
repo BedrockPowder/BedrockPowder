@@ -8,6 +8,12 @@
     <b>for Minecraft: Bedrock Edition written on C++</b>
 </p>
 
+<h1>Currently in development!</h1>
+    <p align="center">
+        This project is under development.  Most of the code consists of stubs so that there is at least some kind of basis.
+    </p>
+
+
 <h1>Navigation</h1>
     <h4>1. <a href=README.md#getting-started>Getting Started</a></h3>
     <h4>2. <a href=README.md#special-thanks>Special Thanks</a></h3>
