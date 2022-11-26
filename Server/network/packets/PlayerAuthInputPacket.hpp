@@ -120,8 +120,6 @@ enum PlayerActionType {
     STOP_ITEM_USE_ON
 };
 
-
-
 struct PlayerBlockActionData 
 {
     PlayerActionType action;
@@ -169,5 +167,18 @@ public:
       position = Vec3(stream->get_float_le(),stream->get_float_le(),stream->get_float_le());
       motion = Vec2(stream->get_float_le(),stream->get_float_le());
       headYaw = stream->get_float_le();
+      long inputdata = stream->unsigned_long_le();
+      for (int i = 0; i < 37; ++i)
+      {
+         if ((inputdata) & (1 << i))
+            inputData.insert(inputdata);
+      }
+      inputMode = stream->get_unsigned_int_le();
+      playMode = stream->get_unsigned_int_le();
+      interactionModel = stream->get_unsigned_int_le();
+      if (playMode == 4)
+         vrGazeDirection = Vec3(0,0,0);
+      tick = stream->unsigned_long_le();
+      delta = Vec3(stream->get_float_le(),stream->get_float_le(),stream->get_float_le());
    }
 };
