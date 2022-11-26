@@ -87,7 +87,6 @@ enum AuthInteractionModel {
 };
 
 enum PlayerActionType {
-
     START_DESTROY_BLOCK,
     ABORT_DESTROY_BLOCK,
     STOP_DESTROY_BLOCK,
@@ -125,6 +124,7 @@ struct PlayerBlockActionData
     PlayerActionType action;
     Vec3 position;
     int facing;
+    PlayerBlockActionData(PlayerActionType act,Vec3 pos,int face) : action(act),position(pos),facing(face) {}
 };
 
 class PlayerAuthInputPacket : public MCPEPacket<ClientSide> {
@@ -180,5 +180,28 @@ public:
          vrGazeDirection = Vec3(0,0,0);
       tick = stream->unsigned_long_le();
       delta = Vec3(stream->get_float_le(),stream->get_float_le(),stream->get_float_le());
+      if (inputData.find(37) != inputData.end())
+      {
+      }
+      if (inputData.find(36) != inputData.end())
+      {
+         int size = stream->get_int_le();
+         for (int i = 0; i < size; ++i)
+         {
+            PlayerActionType type = (PlayerActionType)stream->get_int_le();
+            switch ((int)type)
+            {
+               case 0:
+               case 1:
+               case 18:
+               case 34:
+               case 35:
+                  blockActionData[type] = PlayerBlockActionData(type,Vec3(stream->get_float_le(),stream->get_float_le(),stream->get_float_le()),stream->get_int_le());
+               break;
+               default:
+                   blockActionData[type] = PlayerBlockActionData(type,Vec3(0,0,0),-1);
+            }
+         }
+      }
    }
 };
