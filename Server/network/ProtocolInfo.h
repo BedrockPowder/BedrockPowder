@@ -40,6 +40,7 @@ enum PacketIDs : int {
     add_actor_packet = 0x0d,
     remove_actor_packet = 0x0e,
     add_item_actor_packet = 0x0f,
+    player_auth_input_packet = 0x90,
 };
 
 #endif //BEDROCKPOWDER_PROTOCOLINFO_H
