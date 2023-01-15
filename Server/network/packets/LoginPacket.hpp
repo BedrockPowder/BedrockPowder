@@ -33,9 +33,11 @@ public:
     }
 
     void read(BinaryStream* binaryStream) override {
-        this->protocol = binaryStream->get_signed_var_int();
+        this->protocol = binaryStream->get_int_be();
 
-        this->decodeConnectionRequest((char*) binaryStream->get_remaining_bytes());
+        auto rem = binaryStream->get_remaining_bytes();
+
+        this->decodeConnectionRequest((unsigned char*)rem);
     }
 
     void write(BinaryStream* binaryStream) override {
@@ -47,7 +49,7 @@ public:
     JwtChain* chain{};
     std::string client_data_jwt;
 protected:
-    void decodeConnectionRequest(const std::string& binary) {
+    void decodeConnectionRequest(const unsigned char* binary) {
         auto* reader = new BinaryStream(binary);
 
         auto chainDataJsonLength = reader->get_int_le();
@@ -71,7 +73,8 @@ protected:
 
     [[nodiscard]]
     std::string encodeConnectionRequest() const {
-        auto* writer = new BinaryStream();
+        const unsigned char* uc;
+        auto* writer = new BinaryStream(const_cast<const unsigned char*>(uc));
         auto chainDataJson = nlohmann::basic_json(this->chain->chain);
 
         std::string jsonstr = nlohmann::to_string(chainDataJson);

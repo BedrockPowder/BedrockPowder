@@ -1,3 +1,5 @@
+# WHEN USING: copy the zlibd.dll into the place where the BedrockPowder executeable exists
+# zlibd.dll is found inside Zlib/Debug if not found build the zlib then it will be found
 <p align="center">
     <picture>
         <img src="icon.png" loading="eager" alt=""/>
