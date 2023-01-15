@@ -16,6 +16,20 @@ public:
         this->packet_id = packet_id;
     }
 
+    void readHeader(BinaryStream* stream) {
+        this->packet_id = stream->get_var_int();
+        if (this->packet_id == -1) {
+            Logger::log("ERROR: the packet should be positive");
+            return;
+        }
+        this->read(stream);
+    }
+
+    void writeHeader(BinaryStream* stream) {
+        stream->put_var_int(this->packet_id);
+        this->write(stream);
+    }
+
     int PID() {
         return this->packet_id;
     }
