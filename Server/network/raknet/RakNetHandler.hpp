@@ -60,8 +60,8 @@ public:
 		    stream->offset += stream->size;
 		    if (!compressionEnabled) {
 			   BinaryStream* data = new BinaryStream(NULL);
-			   data->buffer = (int8_t *)(Bytef*)(stream->buffer + 1);
-			   data->size = (uLong)(static_cast<size_t>(stream->size) - 1);
+			   data->buffer = (int8_t *)(stream->buffer + 1);
+			   data->size = (static_cast<size_t>(stream->size) - 1);
 			   data->offset = 0;
 			   do {
 				   BinaryStream* entry_stream = new BinaryStream(NULL);
@@ -75,7 +75,7 @@ public:
 					   std::cout << "Player protocol version: " << streams->get_int_be();
 					   std::cout << std::endl;
 					   compressionEnabled = true;
-					   free(streams->buffer);
+					   free((void *)streams->buffer);
 				   }
 			   } while(data->offset < data->size);
 		    } else {
