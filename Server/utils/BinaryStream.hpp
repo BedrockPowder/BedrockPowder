@@ -13,7 +13,7 @@
 
 class BinaryStream {
 public:
-    explicit BinaryStream(const unsigned char* payload = "", const int offset = 0) {
+    explicit BinaryStream(const unsigned char* payload, const int offset = 0) {
         this->buffer = (int8_t*)payload;
         this->offset = offset;
     }
