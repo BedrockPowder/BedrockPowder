@@ -23,4 +23,4 @@ add_executable(BedrockPowder ${BedrockPowder_src})
 
 target_link_libraries(BedrockPowder raknet)
 target_link_libraries(BedrockPowder miniz)
-target_link_libraries(BedrockPowder ZLib/Debug/zlibd)
+target_link_libraries(BedrockPowder Zlib/Debug/zlibd)
