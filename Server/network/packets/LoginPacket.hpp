@@ -33,7 +33,7 @@ public:
     }
 
     void read(BinaryStream* binaryStream) override {
-        this->protocol = binaryStream->get_int_le();
+        this->protocol = binaryStream->get_int_be();
 
         auto rem = binaryStream->get_remaining_bytes();
 
