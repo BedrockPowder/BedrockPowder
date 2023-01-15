@@ -11,6 +11,7 @@
 
 #include "Server/network/ProtocolInfo.h"
 #include "Server/BedrockPowder.h"
+#include "Server/utils/BinaryStream.hpp"
 
 #include <RakPeerInterface.h>
 #include <RakNetTypes.h>
@@ -44,11 +45,13 @@ public:
     void handle(RakNet::RakPeerInterface *peer) {
         RakNet::Packet *packet;
         for(packet = peer->Receive(); packet; peer->DeallocatePacket(packet), packet = peer->Receive()) {
-            switch(packet->data[0]) {
+            BinaryStream* stream = new BinaryStream(packet->data, 0);
+            switch(stream->get_unsigned_byte()) {
                 // Catch encrypted(?) encapsulated MCPE Packet.
                 // So now I dont know is packets encrypted @see(?) https://wiki.vg/Raknet_Protocol#Open_Connection_Request_2
                 case 0xFE: {
                     Logger::log("MCPE Game packet recieved.");
+                    //todo
                     break;
                 }
                 // Catch New Incoming Connection.
