@@ -182,15 +182,15 @@ public:
 							streams->buffer = entry_stream->buffer;
 							streams = (BinaryStream*)realloc(streams, streams_count * sizeof(BinaryStream));
 							if (streams->get_var_int() == 0xc1) { // request network settings
-								streams->size = sizeof(streams);
 								std::cout << "Player protocol version: " << streams->get_int_be();
 								std::cout << std::endl;
 								compressionEnabled = true;
+								free(streams->buffer);
 							}
 						} while(data->offset < data->size);
-						free(data->buffer);
 					}
 					else {
+						std::cout << "Compression reach" << std::endl;
 						zlib_buf_t in;
 						in.data = (Bytef*)(stream->buffer + 1);
 						in.size = (uLong)(stream->size - 1);
@@ -200,7 +200,7 @@ public:
 						data->buffer = (int8_t*)out.data;
 						data->size = out.size;
 						data->offset = 0;
-						std::cout << "Compression reach" << std::endl;
+						free(data->buffer);
 					}
                     break;
                 }
